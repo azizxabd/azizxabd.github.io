@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abdul Aziz · Robotics Engineer</title>
+  <meta name="description" content="Abdul Aziz — MS Robotics @ Northeastern. ROS2, SLAM, Perception, Embedded Systems." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+
+  <!-- Theme bootstrap (must run before paint) -->
+  <script>
+    (function () {
+      var saved = localStorage.getItem('theme');
+      var sys = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', (saved === 'dark' || saved === 'light') ? saved : sys);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Particle canvas background -->
+  <canvas id="net-bg" aria-hidden="true"></canvas>
+
+  <!-- ── PRELOADER ── -->
+  <div id="preloader">
+    <div class="pl-name">Your Name<span>.</span></div>
+    <div class="pl-track"><div class="pl-bar" id="pl-bar"></div></div>
+    <div class="pl-status" id="pl-status">Loading…</div>
+  </div>
+
+  <!-- ── APP ── -->
+  <div id="app">
+
+    <!-- ════════════ HEADER ════════════ -->
+    <header class="site-header" role="banner">
+      <a class="brand" href="#about">
+        <span class="brand-n">Abdul Aziz</span><span class="brand-dot">.</span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <div class="nav-links">
+          <a href="#about">About</a>
+          <a href="#home">Current Focus</a>
+          <a href="#work">Experience</a>
+          <a href="#projects">Projects</a>
+          <a href="#extra">Extra</a>
+          <a href="#clients">Clients</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div class="nav-actions">
+          <!--           Replace href with your GitHub -->
+          <a href="https://github.com/AbdulAziz" class="icon-btn" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg class="gh-ico" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+          </a>
+          <div class="nav-div" aria-hidden="true"></div>
+          <button id="theme-btn" class="icon-btn" aria-label="Toggle theme">
+            <svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle class="ti-core" cx="12" cy="12" r="5"/>
+              <g class="ti-rays">
+                <line x1="12" y1="1"  x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22"   x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1"  y1="12" x2="3"  y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                <line x1="18.36" y1="5.64"  x2="19.78" y2="4.22"/>
+              </g>
+              <circle class="ti-cres" cx="16" cy="8" r="4"/>
+            </svg>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <!-- ════════════ HERO ════════════ -->
+    <section id="home" class="hero">
+      <div class="container">
+        <div class="sec-label">Current Focus</div>
+        <h2 class="sec-title">Currently Working On<span class="sec-dot">.</span></h2>
+      </div>
+
+      <div class="hero-split">
+
+        <!-- LEFT panel: Professional -->
+        <div class="hero-panel">
+          <div class="panel-label">Research & Competition</div>
+
+          <div class="panel-media">
+            <!-- Replace with: <img src="assets/nurover.png" alt="NURover Mars Rover"> -->
+            <div class="media-ph">NURover — Mars Rover Team</div>
+          </div>
+
+          <div class="pill pill-active"><span class="pill-dot"></span>Currently Active</div>
+          <h2 class="panel-title">NURover — Northeastern Mars Rover</h2>
+          <p class="panel-org">Autonomous Navigation Lead · Northeastern University</p>
+          <p class="panel-desc">Building a ROS2-based autonomous navigation stack in Gazebo simulation, integrating LiDAR and camera data for real-time SLAM and obstacle avoidance — achieving a 25% improvement in localization accuracy during field tests.</p>
+          <div class="panel-tags">
+            <span class="tag">ROS2</span>
+            <span class="tag">SLAM</span>
+            <span class="tag">Gazebo</span>
+            <span class="tag">LiDAR</span>
+          </div>
+          <div class="panel-actions">
+            <a href="#projects" class="btn">View Projects →</a>
+          </div>
+        </div>
+
+        <!-- CENTER divider -->
+        <div class="hero-div">
+          <div class="hero-div__line"></div>
+          <div class="hero-div__badge">AA<span>.</span></div>
+          <div class="hero-div__line"></div>
+        </div>
+
+        <!-- RIGHT panel: Personal Project -->
+        <div class="hero-panel">
+          <div class="panel-label ac">Student Aerospace Team</div>
+
+          <div class="panel-media">
+            <!-- Replace with: <img src="assets/aeronu.png" alt="AeroNU Avionics"> -->
+            <div class="media-ph">AeroNU — Avionics System</div>
+          </div>
+
+          <div class="pill pill-dev"><span class="pill-dot"></span>In Development</div>
+          <h2 class="panel-title">AeroNU Avionics System</h2>
+          <p class="panel-org">Avionics Engineer · Northeastern Aerospace Team</p>
+          <p class="panel-desc">Building a CAN-based avionics system using STM32 microcontrollers, connecting GPS, IMU, barometer and telemetry for real-time data relay. Python/C++ flight diagnostics improved test reliability by 30%.</p>
+          <div class="panel-tags">
+            <span class="tag">STM32</span>
+            <span class="tag">CAN Bus</span>
+            <span class="tag">Python</span>
+            <span class="tag">C++</span>
+          </div>
+          <div class="panel-actions">
+            <a href="#work" class="btn btn-fill">View Experience →</a>
+            <a href="#projects" class="btn">All Projects →</a>
+          </div>
+        </div>
+
+      </div>
+      <div class="sec-divider" aria-hidden="true"></div>
+    </section>
+
+    <!-- ════════════ ABOUT ════════════ -->
+    <section id="about" class="about">
+      <div class="container">
+        <div class="sec-label">Introduction</div>
+        <h2 class="sec-title">About Me<span class="sec-dot">.</span></h2>
+
+        <div class="about-grid">
+
+          <!-- Intro — spans 2 cols -->
+          <article class="tile t-intro">
+            <div>
+              <h3 class="intro-title">Robotics Engineer <span class="ac">&amp;</span><br>Perception Researcher</h3>
+              <p class="intro-text">I'm Abdul Aziz — MS Robotics student at Northeastern University, Boston. I build autonomous systems, perception pipelines, and embedded avionics. From SLAM on a Mars rover to CAN-bus flight computers, I bridge software and hardware to make robots work in the real world.</p>
+            </div>
+            <div class="intro-actions">
+              <a class="btn btn-fill" href="#contact">Let's work together →</a>
+              <!-- Replace href with path to your CV -->
+              <a class="btn" href="assets/Abdul_Aziz_CV.pdf" download>Download CV ↓</a>
+            </div>
+          </article>
+
+          <!-- Socials — spans 2 rows -->
+          <aside class="tile t-social">
+            <div class="soc-title">Find me online</div>
+            <!-- Replace all hrefs below -->
+            <a href="https://linkedin.com/in/abdulaziz" target="_blank" rel="noopener" class="soc-link">
+              <div class="soc-ico">💼</div>LinkedIn
+            </a>
+            <a href="https://github.com/AbdulAziz" target="_blank" rel="noopener" class="soc-link">
+              <div class="soc-ico">🐙</div>GitHub
+            </a>
+            <div class="soc-btns">
+              <a class="btn" href="mailto:aziz.abd@northeastern.edu">✉ Email Me</a>
+            </div>
+          </aside>
+
+          <!-- Terminal Tech Stack — spans 2 rows, filled by JS -->
+          <aside class="tile t-tech">
+            <div class="ts-term">
+              <div class="ts-head">
+                <div class="ts-dots">
+                  <div class="ts-dot" style="background:#ff5f57"></div>
+                  <div class="ts-dot" style="background:#ffbd2e"></div>
+                  <div class="ts-dot" style="background:#28c840"></div>
+                </div>
+                <div class="ts-head-title">tech-stack.json</div>
+                <div style="width:46px"></div>
+              </div>
+              <div class="ts-body">
+                <div class="ts-cmd"><span class="ts-prompt">$</span><span>cat tech-stack.json</span></div>
+                <!-- Lines injected by main.js → buildTerminal() -->
+                <div id="ts-out"></div>
+                <div class="ts-cursor"></div>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Photo -->
+          <figure class="tile t-photo">
+            <!-- Replace with: <img src="assets/your-photo.jpg" alt="Your Name"> -->
+            <div class="media-ph" style="height:100%">Your Photo</div>
+          </figure>
+
+          <!-- Availability -->
+          <aside class="tile t-avail">
+            <div class="avail-info">
+              <h4 class="avail-title">Availability</h4>
+              <p>Location: Boston, MA (EST)</p>
+              <p>Typical hours: 10:00 — 19:00 EST</p>
+              <p>Open to: Research, Internships &amp; Full-time Roles</p>
+              <div class="avail-badge"><span class="avail-dot"></span>Open to opportunities</div>
+            </div>
+          </aside>
+
+        </div>
+
+        <!-- Stats row -->
+        <div class="about-stats">
+          <div class="stat-card"><div class="stat-num">3+</div><div class="stat-lbl">Internships</div></div>
+          <div class="stat-card"><div class="stat-num">7+</div><div class="stat-lbl">Coding Experience</div></div>
+          <div class="stat-card"><div class="stat-num">2</div><div class="stat-lbl">Rover &amp; Aerospace Teams</div></div>
+          <div class="stat-card"><div class="stat-num">1</div><div class="stat-lbl">Publication</div></div>
+          <div class="stat-card"><div class="stat-num">3</div><div class="stat-lbl">Countries</div></div>
+        </div>
+
+      </div>
+      <div class="sec-divider" aria-hidden="true"></div>
+    </section>
+
+    <!-- ════════════ EXPERIENCE ════════════ -->
+    <section id="work" class="work">
+      <div class="container">
+        <div class="sec-label">Career</div>
+        <h2 class="sec-title">Work Experience<span class="sec-dot">.</span></h2>
+
+        <div class="exp-layout">
+
+          <!-- Timeline -->
+          <ol class="timeline" id="timeline" aria-label="Work experience">
+
+            <li class="t-item">
+              <div class="t-rail" aria-hidden="true"><span class="t-dot"></span></div>
+              <div class="t-date">Oct 2025 — Present</div>
+              <div class="t-head">
+                <div class="t-logo"><div class="media-ph" style="font-size:22px">🤖</div></div>
+                <div>
+                  <div class="t-company">NURover — Northeastern Mars Rover Team</div>
+                  <div class="t-location">Boston, MA · Extracurricular</div>
+                </div>
+              </div>
+              <div class="t-body">
+                <ul class="t-points">
+                  <li>Designed and deployed a <strong>ROS2-based autonomous navigation stack</strong> in Gazebo, integrating LiDAR and camera for real-time SLAM and obstacle avoidance.</li>
+                  <li>Achieved a <strong>25% improvement in localization accuracy</strong> during field tests.</li>
+                  <li>Engineered PCB architecture and power distribution systems for high-throughput sensors and onboard compute modules.</li>
+                </ul>
+              </div>
+            </li>
+
+            <li class="t-item">
+              <div class="t-rail" aria-hidden="true"><span class="t-dot"></span></div>
+              <div class="t-date">Sep 2025 — Present</div>
+              <div class="t-head">
+                <div class="t-logo"><div class="media-ph" style="font-size:22px">✈️</div></div>
+                <div>
+                  <div class="t-company">AeroNU — Northeastern Aerospace Team</div>
+                  <div class="t-location">Boston, MA · Extracurricular</div>
+                </div>
+              </div>
+              <div class="t-body">
+                <ul class="t-points">
+                  <li>Built a <strong>CAN-based avionics system</strong> using STM32 microcontrollers, connecting GPS, IMU, barometer, and telemetry for real-time data relay.</li>
+                  <li>Developed flight diagnostics and safety scripts in Python/C++, <strong>improving test reliability by 30%</strong>.</li>
+                </ul>
+              </div>
+            </li>
+
+            <li class="t-item">
+              <div class="t-rail" aria-hidden="true"><span class="t-dot"></span></div>
+              <div class="t-date">Jan 2025 — May 2025</div>
+              <div class="t-head">
+                <div class="t-logo"><div class="media-ph" style="font-size:22px">🏭</div></div>
+                <div>
+                  <div class="t-company">Alshifa Solution</div>
+                  <div class="t-location">India · Automation &amp; Systems Engineer Intern</div>
+                </div>
+              </div>
+              <div class="t-body">
+                <ul class="t-points">
+                  <li>Developed a <strong>Python-based diagnostic system</strong> for robotic subsystems, analyzing real-time sensor logs to detect and predict faults in motor and actuator modules.</li>
+                  <li>Integrated the diagnostic pipeline with ROS tools and hardware feedback loops; streamlined on-site troubleshooting workflows.</li>
+                </ul>
+              </div>
+            </li>
+
+            <li class="t-item">
+              <div class="t-rail" aria-hidden="true"><span class="t-dot"></span></div>
+              <div class="t-date">Jun 2024 — Aug 2024</div>
+              <div class="t-head">
+                <div class="t-logo"><div class="media-ph" style="font-size:22px">🖥️</div></div>
+                <div>
+                  <div class="t-company">Mishka Tech</div>
+                  <div class="t-location">India · HMI/UX Intern</div>
+                </div>
+              </div>
+              <div class="t-body">
+                <ul class="t-points">
+                  <li>Designed and tested <strong>operator interfaces for robotic control panels</strong>, reducing command execution errors and improving operator visibility.</li>
+                  <li>Validated API communication between UI and control hardware with electrical and software teams; produced deployment documentation.</li>
+                </ul>
+              </div>
+            </li>
+
+            <li class="t-item">
+              <div class="t-rail" aria-hidden="true"><span class="t-dot"></span></div>
+              <div class="t-date">May 2024 — Jul 2024</div>
+              <div class="t-head">
+                <div class="t-logo"><div class="media-ph" style="font-size:22px">🤖</div></div>
+                <div>
+                  <div class="t-company">Ulavi Technologies</div>
+                  <div class="t-location">Singapore · AI/ML Intern</div>
+                </div>
+              </div>
+              <div class="t-body">
+                <ul class="t-points">
+                  <li>Designed a <strong>TensorFlow-based intent recognition module</strong> to improve human-robot interaction (HRI) reliability on embedded systems for industrial automation.</li>
+                  <li>Optimized edge deployment of AI models, reducing latency and compute overhead during live robotic operations.</li>
+                </ul>
+              </div>
+            </li>
+
+          </ol>
+
+          <!-- Sidebar -->
+          <div class="exp-sidebar">
+            <div class="summary-card">
+              <div class="summary-title">📊 At a Glance</div>
+              <div class="s-row"><span>Total Experience</span><span>2+ yrs</span></div>
+              <div class="s-row"><span>Internships</span><span>3</span></div>
+              <div class="s-row"><span>Coding Expereince</span><span>7</span></div>
+              <div class="s-row"><span>Research Teams</span><span>2</span></div>
+              <div class="s-row"><span>Countries</span><span>3</span></div>
+              <div class="s-row"><span>Publications</span><span>1</span></div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-title">🛠️ Core Tools</div>
+              <div class="chip-wrap">
+                <span class="chip">ROS2</span>
+                <span class="chip">Python</span>
+                <span class="chip">C++</span>
+                <span class="chip">Gazebo</span>
+                <span class="chip">OpenCV</span>
+                <span class="chip">PyTorch</span>
+                <span class="chip">STM32</span>
+                <span class="chip">SolidWorks</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="sec-divider" aria-hidden="true"></div>
+    </section>
+
+    <!-- ════════════ PROJECTS ════════════ -->
+    <section id="projects" class="projects">
+      <div class="container">
+        <div class="sec-label">Portfolio</div>
+        <h2 class="sec-title">Projects<span class="sec-dot">.</span></h2>
+
+        <!-- Filter buttons — data-f must match data-cat on cards -->
+        <div class="proj-filters" role="toolbar" aria-label="Filter projects">
+          <button class="proj-filter active" data-f="all">All</button>
+          <button class="proj-filter" data-f="web">Web</button>
+          <button class="proj-filter" data-f="ai">AI / ML</button>
+          <button class="proj-filter" data-f="gamedev">Game Dev</button>
+          <button class="proj-filter" data-f="tools">Tools</button>
+          <!-- Add more filters as needed -->
+        </div>
+      </div>
+
+      <!-- Carousel — full-width overflow intentional -->
+      <div class="proj-carousel">
+        <div class="proj-track" id="proj-track" tabindex="0">
+
+          <!-- ── CARD — duplicate for each project ── -->
+          <article class="proj-card" data-cat="web">
+            <div class="proj-media">
+              <!-- Replace with: <img src="assets/projects/project1.png" alt="Project Name"> -->
+              <div class="media-ph proj-ph" style="background:linear-gradient(135deg,#1e3a5f,#0f2240)">🌐</div>
+              <span class="proj-num">#1</span>
+            </div>
+            <div class="proj-body">
+              <h3>Project Name</h3>
+              <div class="proj-tags">
+                <span class="proj-tag">React</span>
+                <span class="proj-tag">Node.js</span>
+              </div>
+              <p>Short description — what it does and why it matters. 2 sentences max.</p>
+            </div>
+            <div class="proj-footer">
+              <!-- Replace href with your repo or live link -->
+              <a href="https://github.com/yourusername/project" target="_blank" rel="noopener" class="proj-link">GitHub →</a>
+            </div>
+          </article>
+
+          <article class="proj-card" data-cat="ai">
+            <div class="proj-media">
+              <div class="media-ph proj-ph" style="background:linear-gradient(135deg,#2d1b4e,#1a0f2e)">🤖</div>
+              <span class="proj-num">#2</span>
+            </div>
+            <div class="proj-body">
+              <h3>AI / ML Project</h3>
+              <div class="proj-tags">
+                <span class="proj-tag">Python</span>
+                <span class="proj-tag">PyTorch</span>
+              </div>
+              <p>What problem this model solves and your technical approach.</p>
+            </div>
+            <div class="proj-footer">
+              <a href="https://github.com/yourusername/project" target="_blank" rel="noopener" class="proj-link">GitHub →</a>
+            </div>
+          </article>
+
+          <article class="proj-card" data-cat="gamedev">
+            <div class="proj-media">
+              <div class="media-ph proj-ph" style="background:linear-gradient(135deg,#1a3320,#0f1f12)">🎮</div>
+              <span class="proj-num">#3</span>
+            </div>
+            <div class="proj-body">
+              <h3>Game Dev Project</h3>
+              <div class="proj-tags">
+                <span class="proj-tag">Unity</span>
+                <span class="proj-tag">C#</span>
+              </div>
+              <p>What kind of game or system you built and what makes it interesting.</p>
+            </div>
+            <div class="proj-footer">
+              <a href="https://github.com/yourusername/project" target="_blank" rel="noopener" class="proj-link">GitHub →</a>
+            </div>
+          </article>
+
+          <article class="proj-card" data-cat="tools">
+            <div class="proj-media">
+              <div class="media-ph proj-ph" style="background:linear-gradient(135deg,#3b2200,#221400)">🛠️</div>
+              <span class="proj-num">#4</span>
+            </div>
+            <div class="proj-body">
+              <h3>Developer Tool</h3>
+              <div class="proj-tags">
+                <span class="proj-tag">Python</span>
+                <span class="proj-tag">CLI</span>
+              </div>
+              <p>What workflow problem this tool solves and who benefits from it.</p>
+            </div>
+            <div class="proj-footer">
+              <a href="https://github.com/yourusername/project" target="_blank" rel="noopener" class="proj-link">GitHub →</a>
+            </div>
+          </article>
+
+          <article class="proj-card" data-cat="web">
+            <div class="proj-media">
+              <div class="media-ph proj-ph" style="background:linear-gradient(135deg,#0f3d2b,#071f16)">📊</div>
+              <span class="proj-num">#5</span>
+            </div>
+            <div class="proj-body">
+              <h3>Full Stack App</h3>
+              <div class="proj-tags">
+                <span class="proj-tag">Next.js</span>
+                <span class="proj-tag">MongoDB</span>
+              </div>
+              <p>A full-stack application with auth, database, and polished UI.</p>
+            </div>
+            <div class="proj-footer">
+              <a href="https://github.com/yourusername/project" target="_blank" rel="noopener" class="proj-link">GitHub →</a>
+            </div>
+          </article>
+
+          <!-- Keep adding <article class="proj-card" data-cat="..."> blocks -->
+
+        </div>
+      </div>
+
+      <div class="proj-controls">
+        <button class="nav-btn" id="proj-prev" aria-label="Previous">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="nav-btn" id="proj-next" aria-label="Next">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+      <div class="sec-divider" aria-hidden="true"></div>
+    </section>
+
+    <!-- ════════════ REVIEWS ════════════ -->
+    <section id="clients" class="clients">
+      <div class="container">
+        <div class="sec-label">Testimonials</div>
+        <h2 class="sec-title">Hear From My Clients<span class="sec-dot">.</span></h2>
+
+        <!-- Stats banner — edit numbers -->
+        <div class="rev-stats">
+          <div class="rev-stat"><div class="rev-num">10+</div><div class="rev-lbl">Happy Clients</div></div>
+          <div class="rev-stat"><div class="rev-num">5.0</div><div class="rev-lbl">Avg Rating</div></div>
+          <div class="rev-stat"><div class="rev-num">100%</div><div class="rev-lbl">Delivery Rate</div></div>
+          <div class="rev-stat"><div class="rev-num">15+</div><div class="rev-lbl">Projects Done</div></div>
+        </div>
+      </div>
+
+      <!-- Row 1 — scrolls left -->
+      <!-- JS clones .mgroup for seamless loop -->
+      <div class="marquee-row">
+        <div class="marquee" style="--dur:36s">
+          <div class="mgroup" id="mg1">
+            <!-- ── REVIEW — duplicate as needed ── -->
+            <div class="review">
+              <div class="rev-card">
+                <div class="rev-avatar" style="background:#6366f1">AJ</div>
+                <div>
+                  <div class="rev-name">Alex Johnson</div>
+                  <div class="rev-stars">★★★★★</div>
+                </div>
+                <div class="rev-body">"Fast, reliable, and communicated clearly throughout. Would hire again in a heartbeat."</div>
+              </div>
+            </div>
+            <div class="review">
+              <div class="rev-card">
+                <div class="rev-avatar" style="background:#ec4899">SR</div>
+                <div>
+                  <div class="rev-name">Sara Rossi</div>
+                  <div class="rev-stars">★★★★★</div>
+                </div>
+                <div class="rev-body">"Delivered exactly what we needed, on time and with clean code."</div>
+              </div>
+            </div>
+            <div class="review">
+              <div class="rev-card">
+                <div class="rev-avatar" style="background:#10b981">ML</div>
+                <div>
+                  <div class="rev-name">Marc Lee</div>
+                  <div class="rev-stars">★★★★★</div>
+                </div>
+                <div class="rev-body">"Turned a rough idea into a working product. Impressive attention to detail."</div>
+              </div>
+            </div>
+            <div class="review">
+              <div class="rev-card">
+                <div class="rev-avatar" style="background:#f59e0b">NK</div>
+                <div>
+                  <div class="rev-name">Nina K.</div>
+                  <div class="rev-stars">★★★★★</div>
+                </div>
+                <div class="rev-body">"Professional, thorough. The UX choices were exactly what the project needed."</div>
+              </div>
+            </div>
+            <div class="review">
+              <div class="rev-card">
+                <div class="rev-avatar" style="background:#8b5cf6">DW</div>
+                <div>
+                  <div class="rev-name">David W.</div>
+                  <div class="rev-stars">★★★★★</div>
+                </div>
+                <div class="rev-body">"Smooth collaboration from start to finish. Great partner to build with."</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2 — scrolls right -->
+      <div class="marquee-row dir-right">
+        <div class="marquee" style="--dur:44s">
+          <div class="mgroup" id="mg2">
+            <div class="review">
+              <div class="rev-card">
+                <div class="rev-avatar" style="background:#ef4444">PT</div>
+                <div>
+                  <div class="rev-name">Priya T.</div>
+                  <div class="rev-stars">★★★★★</div>
+                </div>
+                <div class="rev-body">"Understood requirements immediately and executed without hand-holding."</div>
+              </div>
+            </div>
+            <div class="review">
+              <div class="rev-card">
+                <div class="rev-avatar" style="background:#0ea5e9">JM</div>
+                <div>
+                  <div class="rev-name">Jake M.</div>
+                  <div class="rev-stars">★★★★★</div>
+                </div>
+                <div class="rev-body">"Solid technical depth and genuinely cares about the outcome."</div>
+              </div>
+            </div>
+            <div class="review">
+              <div class="rev-card">
+                <div class="rev-avatar" style="background:#14b8a6">AK</div>
+                <div>
+                  <div class="rev-name">Anika K.</div>
+                  <div class="rev-stars">★★★★★</div>
+                </div>
+                <div class="rev-body">"Would recommend to anyone looking for quality full-stack work."</div>
+              </div>
+            </div>
+            <div class="review">
+              <div class="rev-card">
+                <div class="rev-avatar" style="background:#d946ef">RC</div>
+                <div>
+                  <div class="rev-name">Ryan C.</div>
+                  <div class="rev-stars">★★★★★</div>
+                </div>
+                <div class="rev-body">"Great docs, fast turnaround, and easy to work with."</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec-divider" aria-hidden="true"></div>
+    </section>
+
+    <!-- ════════════ EXTRA ════════════ -->
+    <section id="extra" class="extra">
+      <div class="container">
+        <div class="sec-label">Beyond Code</div>
+        <h2 class="sec-title">More of What I Do<span class="sec-dot">.</span></h2>
+
+        <div class="extra-grid">
+
+          <div class="extra-block">
+            <div class="xb-header"><span>📄</span><h3 class="xb-title">Publications</h3></div>
+            <ul class="xb-list">
+              <li class="pub-item">
+                <span class="pub-title"><cite>Fusion of Deep Learning and Multi-view Geometry for Robust Object Detection in Distributed Camera Systems</cite> — Abdul Aziz</span>
+                <span class="pub-badge pub-published"><span class="pub-dot"></span>Published 2025</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="extra-block">
+            <div class="xb-header"><span>🎓</span><h3 class="xb-title">Education</h3></div>
+            <ul class="xb-list">
+              <li><strong>MS Robotics</strong> — Northeastern University, Boston MA (Expected May 2027)</li>
+              <li>Coursework: Mobile Robotics, Robot Mechanics &amp; Control</li>
+              <li><strong>B.Tech Computer Science</strong> — Amity University, India (May 2025)</li>
+              <li>Coursework: AI, Data Structures, Control Systems, Compiler Construction</li>
+            </ul>
+          </div>
+
+          <div class="extra-block">
+            <div class="xb-header"><span>🔩</span><h3 class="xb-title">Hardware &amp; CAD</h3></div>
+            <ul class="xb-list">
+              <li>Microcontrollers: Arduino, Raspberry Pi, STM32</li>
+              <li>Protocols: CAN Bus, I2C, SPI, UART</li>
+              <li>Motor drivers, sensor integration, PCB architecture</li>
+              <li>CAD: SolidWorks, Fusion 360, Rapid Prototyping</li>
+            </ul>
+          </div>
+
+          <!-- Skills — full width -->
+          <div class="extra-block">
+            <div class="xb-header"><span>💻</span><h3 class="xb-title">Technical Skills</h3></div>
+            <ul class="xb-list xb-chips">
+              <li><span class="chip">Python</span></li>
+              <li><span class="chip">C++</span></li>
+              <li><span class="chip">C#</span></li>
+              <li><span class="chip">ROS / ROS2</span></li>
+              <li><span class="chip">Gazebo</span></li>
+              <li><span class="chip">RViz</span></li>
+              <li><span class="chip">SLAM</span></li>
+              <li><span class="chip">Motion Planning</span></li>
+              <li><span class="chip">OpenCV</span></li>
+              <li><span class="chip">PyTorch</span></li>
+              <li><span class="chip">TensorFlow</span></li>
+              <li><span class="chip">YOLO</span></li>
+              <li><span class="chip">Sensor Fusion</span></li>
+              <li><span class="chip">Linux</span></li>
+              <li><span class="chip">Git</span></li>
+            </ul>
+          </div>
+
+          <div class="extra-block">
+            <div class="xb-header"><span>🌍</span><h3 class="xb-title">Global Experience</h3></div>
+            <ul class="xb-list">
+              <li>🇺🇸 Boston, MA — MS Robotics, Northeastern University</li>
+              <li>🇮🇳 India — B.Tech CSE, Amity University + internships at Alshifa &amp; Mishka Tech</li>
+              <li>🇸🇬 Singapore — AI/ML Intern at Ulavi Technologies</li>
+            </ul>
+          </div>
+
+          <div class="extra-block">
+            <div class="xb-header"><span>🚀</span><h3 class="xb-title">Research Interests</h3></div>
+            <ul class="xb-list">
+              <li>Autonomous navigation and path planning for ground robots</li>
+              <li>Perception: multi-camera systems, sensor fusion, 3D reconstruction</li>
+              <li>Edge AI deployment on embedded / resource-constrained hardware</li>
+              <li>Human-robot interaction (HRI) and teleoperation interfaces</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Journey cards -->
+        <h3 class="journey-title">✈️ Journey &amp; Experiences</h3>
+        <div class="journey-scroll">
+          <!-- ── JOURNEY CARD — duplicate as needed ── -->
+          <article class="journey-card">
+            <div class="journey-media">
+              <!-- Replace with: <img src="assets/extra/place1.jpg" alt="Place"> -->
+              <div class="media-ph" style="height:100%;font-size:48px">🇺🇸</div>
+            </div>
+            <div class="journey-body">
+              <span class="journey-flag">🇺🇸</span>
+              <h4>Place / Institution</h4>
+              <p>Country · Month–Month Year</p>
+            </div>
+          </article>
+          <article class="journey-card">
+            <div class="journey-media">
+              <div class="media-ph" style="height:100%;font-size:48px">🇬🇧</div>
+            </div>
+            <div class="journey-body">
+              <span class="journey-flag">🇬🇧</span>
+              <h4>Another Place</h4>
+              <p>Country · Year</p>
+            </div>
+          </article>
+          <article class="journey-card">
+            <div class="journey-media">
+              <div class="media-ph" style="height:100%;font-size:48px">🌍</div>
+            </div>
+            <div class="journey-body">
+              <span class="journey-flag">🌍</span>
+              <h4>Third Location</h4>
+              <p>Country · Year</p>
+            </div>
+          </article>
+        </div>
+
+      </div>
+      <div class="sec-divider" aria-hidden="true"></div>
+    </section>
+
+    <!-- ════════════ CONTACT ════════════ -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <div class="sec-label">Get In Touch</div>
+        <h2 class="sec-title">Let's Talk<span class="sec-dot">.</span></h2>
+
+        <div class="contact-layout">
+
+          <!-- Info sidebar -->
+          <div class="contact-info">
+            <p class="contact-intro">MS Robotics student at Northeastern, open to research collaborations, robotics internships, and full-time roles in autonomous systems, perception, or embedded engineering. Reach out — I'd love to connect.</p>
+
+            <div class="contact-channels">
+              <a class="ch" href="mailto:aziz.abd@northeastern.edu">
+                <span class="ch-ico">✉</span>
+                <div><div class="ch-lbl">Email</div><div class="ch-val">aziz.abd@northeastern.edu</div></div>
+              </a>
+              <a class="ch" href="https://linkedin.com/in/xziz" target="_blank" rel="noopener">
+                <span class="ch-ico">💼</span>
+                <div><div class="ch-lbl">LinkedIn</div><div class="ch-val">linkedin.com/in/xziz</div></div>
+              </a>
+              <span class="ch">
+                <span class="ch-ico">📍</span>
+                <div><div class="ch-lbl">Location</div><div class="ch-val">Boston, MA (EST)</div></div>
+              </span>
+            </div>
+
+            <div class="avail-pill">
+              <span class="avail-dot"></span>
+              <span>Open to robotics internships &amp; research roles</span>
+            </div>
+          </div>
+
+          <!-- Contact form -->
+          <!-- Hook up to EmailJS / Formspree / your own backend in main.js → initContact() -->
+          <form class="talk-form" id="contact-form" novalidate>
+            <div class="tf-row">
+              <div class="tf-field">
+                <label class="tf-label" for="tf-name">Full Name</label>
+                <input class="tf-in" id="tf-name" type="text" placeholder="Your name" required />
+              </div>
+              <div class="tf-field">
+                <label class="tf-label" for="tf-email">Email</label>
+                <input class="tf-in" id="tf-email" type="email" placeholder="you@example.com" required />
+              </div>
+            </div>
+            <div class="tf-field">
+              <label class="tf-label" for="tf-subject">Subject</label>
+              <input class="tf-in" id="tf-subject" type="text" placeholder="What's this about?" required />
+            </div>
+            <div class="tf-field">
+              <label class="tf-label" for="tf-message">Message</label>
+              <textarea class="tf-ta" id="tf-message" rows="5" placeholder="Tell me about your project…" required></textarea>
+            </div>
+            <button class="tf-submit btn btn-fill" type="submit">Send Message →</button>
+            <div class="tf-status" id="tf-status"></div>
+          </form>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════ FOOTER ════════════ -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-inner">
+          <div>
+            <!-- Replace with your name -->
+            <div class="footer-name">Abdul Aziz<span>.</span></div>
+            <div class="footer-copy">© <span id="yr"></span> · All rights reserved</div>
+          </div>
+          <nav class="footer-socials" aria-label="Social media">
+            <!-- Replace hrefs -->
+            <a href="https://github.com/AbdulAziz" aria-label="GitHub" target="_blank" rel="noopener">🐙</a>
+            <a href="https://linkedin.com/in/abdulaziz" aria-label="LinkedIn" target="_blank" rel="noopener">💼</a>
+            <a href="mailto:aziz.abd@northeastern.edu" aria-label="Email">✉</a>
+          </nav>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /#app -->
+
+  <script src="main.js"></script>
+</body>
+</html>
