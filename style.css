@@ -307,7 +307,7 @@ section { position: relative; }
 .hero-panel { display: flex; flex-direction: column; padding: clamp(12px, 1.8vw, 28px); }
 
 .panel-label {
-  font-family: var(--fm); font-size: 10px; letter-spacing: .25em;
+  font-family: var(--fm); font-size: 1px; letter-spacing: .25em;
   text-transform: uppercase; color: var(--tx3);
   margin-bottom: clamp(10px, 1.5vh, 18px);
   display: flex; align-items: center; gap: 10px;
