@@ -100,6 +100,7 @@ const CONTACT_CONFIG = {
   initTerminal();
   initTimeline();
   initProjects();
+  initHardware();
   initMarquee();
   initContact();
   initReveal();
@@ -447,6 +448,99 @@ function initProjects() {
       const f = btn.dataset.f;
       all.forEach(c => {
         if (f === 'all' || c.dataset.cat === f) delete c.dataset.hidden;
+        else c.dataset.hidden = 'true';
+      });
+      track.scrollLeft = 0;
+      numberCards();
+      schedule();
+    });
+  });
+
+  numberCards();
+  schedule();
+}
+
+/* ─────────────────────────────────────────
+   HARDWARE DESIGN CAROUSEL + FILTER
+   Call initHardware() inside the boot() IIFE,
+   alongside the other init calls.
+───────────────────────────────────────── */
+function initHardware() {
+  const track = document.getElementById('hw-track');
+  if (!track) return;
+
+  const prevBtn = document.getElementById('hw-prev');
+  const nextBtn = document.getElementById('hw-next');
+  const tabs    = Array.from(document.querySelectorAll('.hw-tab'));
+  const all     = Array.from(track.querySelectorAll('.proj-card'));
+  let autoTimer = null;
+
+  const visible = () => all.filter(c => !c.dataset.hidden);
+
+  const activeIdx = () => {
+    const cards = visible(), cx = track.getBoundingClientRect().left + track.clientWidth / 2;
+    let best = 0, bestD = Infinity;
+    cards.forEach((c, i) => {
+      const d = Math.abs(c.getBoundingClientRect().left + c.clientWidth / 2 - cx);
+      if (d < bestD) { bestD = d; best = i; }
+    });
+    return best;
+  };
+
+  const scrollTo = (i, smooth = true) => {
+    const cards = visible();
+    if (!cards.length) return;
+    const card   = cards[Math.max(0, Math.min(i, cards.length - 1))];
+    const target = card.offsetLeft - (track.clientWidth - card.clientWidth) / 2;
+    if (!smooth) { track.scrollLeft = target; return; }
+    const start = track.scrollLeft, dist = target - start;
+    const dur   = Math.min(600, Math.max(300, Math.abs(dist) * .4));
+    let t0 = null;
+    const ease = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+    const step = ts => {
+      if (!t0) t0 = ts;
+      const p = Math.min((ts - t0) / dur, 1);
+      track.scrollLeft = start + dist * ease(p);
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+
+  const numberCards = () => {
+    visible().forEach((c, i) => {
+      let badge = c.querySelector('.proj-num');
+      if (!badge) { badge = document.createElement('span'); badge.className = 'proj-num'; c.querySelector('.proj-media')?.appendChild(badge); }
+      badge.textContent = '#' + (i + 1);
+    });
+  };
+
+  const schedule = () => {
+    clearTimeout(autoTimer);
+    autoTimer = setTimeout(() => {
+      const cards = visible(), next = activeIdx() + 1;
+      scrollTo(next >= cards.length ? 0 : next);
+      schedule();
+    }, 7500);
+  };
+
+  // Nav buttons
+  prevBtn.addEventListener('click', () => { const c = visible(); scrollTo(activeIdx() <= 0 ? c.length - 1 : activeIdx() - 1); schedule(); });
+  nextBtn.addEventListener('click', () => { const c = visible(); scrollTo(activeIdx() >= c.length - 1 ? 0 : activeIdx() + 1); schedule(); });
+
+  // Pause on hover
+  track.addEventListener('mouseenter', () => clearTimeout(autoTimer));
+  track.addEventListener('mouseleave', schedule);
+  track.addEventListener('touchstart', () => clearTimeout(autoTimer), { passive: true });
+  track.addEventListener('touchend',   () => setTimeout(schedule, 2500), { passive: true });
+
+  // Filter tabs
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.hw;
+      all.forEach(c => {
+        if (f === 'all' || c.dataset.hwcat === f) delete c.dataset.hidden;
         else c.dataset.hidden = 'true';
       });
       track.scrollLeft = 0;
