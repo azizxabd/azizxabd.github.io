@@ -48,6 +48,15 @@ const TECH_STACK = {
     { name: 'Linux',  icon: '🐧' },
     { name: 'Git',    icon: '🌿' },
   ],
+  'Web & Backend': [
+    { name: 'HTML / CSS',  icon: '🌐' },
+    { name: 'JavaScript',  icon: '🟨' },
+    { name: 'Node.js',     icon: '🟩' },
+    { name: 'Express.js',  icon: '🚂' },
+    { name: 'MongoDB',     icon: '🍃' },
+    { name: 'REST API',    icon: '🔗' },
+    { name: 'FlutterFlow', icon: '💙' },
+  ],
   'Hardware & CAD': [
     { name: 'Arduino',         icon: '🔌' },
     { name: 'Raspberry Pi',    icon: '🍓' },

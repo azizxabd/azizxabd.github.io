@@ -52,7 +52,7 @@
           <a href="#contact">Contact</a>
         </div>
         <div class="nav-actions">
-          <a href="https://github.com/AbdulAziz" class="icon-btn" target="_blank" rel="noopener" aria-label="GitHub">
+          <a href="https://github.com/Awwziz" class="icon-btn" target="_blank" rel="noopener" aria-label="GitHub">
             <svg class="gh-ico" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
             </svg>
@@ -101,10 +101,10 @@
           <!-- Socials — spans 2 rows -->
           <aside class="tile t-social">
             <div class="soc-title">Find me online</div>
-            <a href="https://linkedin.com/in/abdulaziz" target="_blank" rel="noopener" class="soc-link">
+            <a href="https://linkedin.com/in/xziz" target="_blank" rel="noopener" class="soc-link">
               <div class="soc-ico">💼</div>LinkedIn
             </a>
-            <a href="https://github.com/AbdulAziz" target="_blank" rel="noopener" class="soc-link">
+            <a href="https://github.com/Awwziz" target="_blank" rel="noopener" class="soc-link">
               <div class="soc-ico">🐙</div>GitHub
             </a>
             <div class="soc-btns">
@@ -207,7 +207,7 @@
           <div class="panel-label ac">Student Aerospace Team</div>
 
           <div class="panel-media">
-            <div class="media-ph">AeroNU — Avionics System</div>
+            <div class="media-ph"><img src="assets/img/current/pcb.png" alt="Aerospace NU"></div>
           </div>
 
           <div class="pill pill-dev"><span class="pill-dot"></span>In Development</div>
@@ -316,6 +316,24 @@
 
             <li class="t-item">
               <div class="t-rail" aria-hidden="true"><span class="t-dot"></span></div>
+              <div class="t-date">Sep 2023 — Dec 2023</div>
+              <div class="t-head">
+                <div class="t-logo"><div class="media-ph" style="font-size:22px">🌿</div></div>
+                <div>
+                  <div class="t-company">ThriveUp</div>
+                  <div class="t-location">India · UX Prototyping &amp; Interface Development Intern</div>
+                </div>
+              </div>
+              <div class="t-body">
+                <ul class="t-points">
+                  <li>Led the <strong>UI/UX design for a wellness app</strong> and supported development using FlutterFlow, gaining proficiency in low-code prototyping for system interfaces.</li>
+                  <li>Contributed to product design with a focus on <strong>accessibility and intuitive interaction</strong> — skills directly applied when designing control and feedback systems in robotics applications.</li>
+                </ul>
+              </div>
+            </li>
+
+            <li class="t-item">
+              <div class="t-rail" aria-hidden="true"><span class="t-dot"></span></div>
               <div class="t-date">May 2024 — Jul 2024</div>
               <div class="t-head">
                 <div class="t-logo"><div class="media-ph" style="font-size:22px">🤖</div></div>
@@ -373,6 +391,7 @@
 
         <div class="proj-filters" role="toolbar" aria-label="Filter projects">
           <button class="proj-filter active" data-f="all">All</button>
+          <button class="proj-filter" data-f="robotics">🤖 Robotics</button>
           <button class="proj-filter" data-f="web">Web</button>
           <button class="proj-filter" data-f="ai">AI / ML</button>
           <button class="proj-filter" data-f="gamedev">Game Dev</button>
@@ -383,21 +402,151 @@
       <div class="proj-carousel">
         <div class="proj-track" id="proj-track" tabindex="0">
 
-          <article class="proj-card" data-cat="web">
+          <!-- #1 — ORB SLAM3 -->
+
+          <article class="proj-card" data-cat="robotics">
             <div class="proj-media">
-              <div class="media-ph proj-ph" style="background:linear-gradient(135deg,#1e3a5f,#0f2240)">🌐</div>
+              <img src="assets/img/projects/orb-slam3.png"
+                  alt="ORB-SLAM3 realtime demo"
+                  loading="lazy" />
               <span class="proj-num">#1</span>
             </div>
             <div class="proj-body">
-              <h3>Project Name</h3>
+              <h3>ORB-SLAM3 Realtime</h3>
               <div class="proj-tags">
-                <span class="proj-tag">React</span>
-                <span class="proj-tag">Node.js</span>
+                <span class="proj-tag">C++</span>
+                <span class="proj-tag">SLAM</span>
+                <span class="proj-tag">ORB-SLAM3</span>
+                <span class="proj-tag">OpenCV</span>
               </div>
-              <p>Short description — what it does and why it matters. 2 sentences max.</p>
+              <p>Comparative performance analysis of ORB-SLAM3 across standard benchmark datasets, extended with a real-time monocular implementation using a live webcam feed. Evaluates trajectory accuracy and map quality under varying conditions.</p>
             </div>
             <div class="proj-footer">
-              <a href="https://github.com/AbdulAziz/project" target="_blank" rel="noopener" class="proj-link">GitHub →</a>
+              <a href="https://github.com/Awwziz/ORB_SLAM3-Realtime" target="_blank" rel="noopener" class="proj-link">GitHub →</a>
+            </div>
+          </article>
+
+          <!-- #2 — Object Detector -->
+          <article class="proj-card" data-cat="ai">
+            <div class="proj-media">
+              <div class="media-ph proj-ph" style="background:linear-gradient(135deg,#2d1b4e,#1a0f2e)"><img src="assets/img/projects/ObjectDetector.png" alt="NGO Platform screenshot" loading="lazy" /></div>
+              <span class="proj-num">#2</span>
+            </div>
+            <div class="proj-body">
+              <h3>Object Detector</h3>
+              <div class="proj-tags">
+                <span class="proj-tag">Python</span>
+                <span class="proj-tag">OpenCV</span>
+                <span class="proj-tag">YOLO</span>
+              </div>
+              <p>Real-time object detection pipeline using YOLO and OpenCV. Detects and classifies objects from live camera feeds or video input, with bounding-box overlays and confidence scores rendered per frame.</p>
+            </div>
+            <div class="proj-footer">
+              <a href="https://github.com/Awwziz/Object-Detector" target="_blank" rel="noopener" class="proj-link">GitHub →</a>
+            </div>
+          </article>
+          
+          <!-- #3 — Document Scanner -->
+          <article class="proj-card" data-cat="ai">
+            <div class="proj-media">
+              <div class="media-ph proj-ph" style="background:linear-gradient(135deg,#1e2d3d,#0f1a24)"> <img src="assets/img/projects/DocumentScanner.png" alt="📄" loading="lazy" /></div>
+              <span class="proj-num">#3</span>
+            </div>
+            <div class="proj-body">
+              <h3>Document Scanner</h3>
+              <div class="proj-tags">
+                <span class="proj-tag">Python</span>
+                <span class="proj-tag">OpenCV</span>
+                <span class="proj-tag">Perspective Transform</span>
+              </div>
+              <p>Camera-based document scanning tool using OpenCV. Detects document edges in real time, applies a 4-point perspective transform to produce a clean top-down scan, and exports the result as an image.</p>
+            </div>
+            <div class="proj-footer">
+              <a href="https://github.com/Awwziz/Document-Scanner" target="_blank" rel="noopener" class="proj-link">GitHub →</a>
+            </div>
+          </article>
+
+          <!-- #4 — Object Measurement -->
+          <article class="proj-card" data-cat="ai">
+            <div class="proj-media">
+              <div class="media-ph proj-ph" style="background:linear-gradient(135deg,#2e1a00,#1a0d00)"><img src="assets/img/projects/ObjectScanner.png" alt="📐" loading="lazy" /></div>
+              <span class="proj-num">#4</span>
+            </div>
+            <div class="proj-body">
+              <h3>Object Measurement</h3>
+              <div class="proj-tags">
+                <span class="proj-tag">Python</span>
+                <span class="proj-tag">OpenCV</span>
+                <span class="proj-tag">Contour Detection</span>
+              </div>
+              <p>Estimates real-world dimensions of objects from a single camera frame using a known reference object. Detects contours, computes bounding boxes, and overlays width/height measurements in cm or mm.</p>
+            </div>
+            <div class="proj-footer">
+              <a href="https://github.com/Awwziz/Object-Measurement" target="_blank" rel="noopener" class="proj-link">GitHub →</a>
+            </div>
+          </article>
+          
+          <!-- #5 — N-Queen Problem -->
+          <article class="proj-card" data-cat="web">
+            <div class="proj-media">
+              <div class="media-ph proj-ph" style="background:linear-gradient(135deg,#1e3a5f,#0f2240)"><img src="assets/img/projects/NQueenGame.png" alt="🌐" loading="lazy" /></div>
+              <span class="proj-num">#1</span>
+            </div>
+            <div class="proj-body">
+              <h3>N-Queen Game</h3>
+              <div class="proj-tags">
+                <span class="proj-tag">C#</span>
+                <span class="proj-tag">Unity</span>
+                <span class="proj-tag">JavaScript</span>
+              </div>
+              <p>Interactive constraint puzzle with solver modes showing backtracking and heuristics.</p>
+            </div>
+            <div class="proj-footer">
+              <a href="https://github.com/Awwziz/" target="_blank" rel="noopener" class="proj-link">GitHub →</a>
+            </div>
+          </article>
+
+          <!-- #6 — Portfolio -->
+
+          <article class="proj-card" data-cat="web">
+            <div class="proj-media">
+              <div class="media-ph proj-ph" style="background:linear-gradient(135deg,#0f3d2b,#071f16)"><img src="assets/img/projects/PortfolioWebsite.png" alt="📊" loading="lazy" /></div>
+              <span class="proj-num">#5</span>
+            </div>
+            <div class="proj-body">
+              <h3>Full Stack App</h3>
+              <div class="proj-tags">
+                <span class="proj-tag">Next.js</span>
+                <span class="proj-tag">MongoDB</span>
+                <span class="proj-tag">HTML</span>
+                <span class="proj-tag">CSS</span>
+              </div>
+              <p>A full-stack application with auth, database, and polished UI. Hosted through Github</p>
+            </div>
+            <div class="proj-footer">
+              <a href="https://github.com/azizxabd/azizxabd.github.io" target="_blank" rel="noopener" class="proj-link">GitHub →</a>
+            </div>
+          </article>
+
+          <!-- #7 — NGO -->
+          <article class="proj-card" data-cat="web">
+            <div class="proj-media">
+              <div class="media-ph proj-ph" style="background:linear-gradient(135deg,#1a3320,#0d1a0d)">🌍</div>
+              <span class="proj-num">#7</span>
+            </div>
+            <div class="proj-body">
+              <h3>NGO Platform</h3>
+              <div class="proj-tags">
+                <span class="proj-tag">HTML</span>
+                <span class="proj-tag">JavaScript</span>
+                <span class="proj-tag">Node.js</span>
+                <span class="proj-tag">MongoDB</span>
+                <span class="proj-tag">REST API</span>
+              </div>
+              <p>Full-stack web platform for NGO management — volunteer sign-up, member registration with login/auth, API-integrated data storage, and donation tracking. Responsive across desktop and mobile.</p>
+            </div>
+            <div class="proj-footer">
+              <a href="https://github.com/Awwziz/NGO" target="_blank" rel="noopener" class="proj-link">GitHub →</a>
             </div>
           </article>
 
@@ -415,7 +564,7 @@
               <p>What problem this model solves and your technical approach.</p>
             </div>
             <div class="proj-footer">
-              <a href="https://github.com/AbdulAziz/project" target="_blank" rel="noopener" class="proj-link">GitHub →</a>
+              <a href="https://github.com/Awwziz" target="_blank" rel="noopener" class="proj-link">GitHub →</a>
             </div>
           </article>
 
@@ -433,7 +582,7 @@
               <p>What kind of game or system you built and what makes it interesting.</p>
             </div>
             <div class="proj-footer">
-              <a href="https://github.com/AbdulAziz/project" target="_blank" rel="noopener" class="proj-link">GitHub →</a>
+              <a href="https://github.com/Awwziz" target="_blank" rel="noopener" class="proj-link">GitHub →</a>
             </div>
           </article>
 
@@ -455,23 +604,7 @@
             </div>
           </article>
 
-          <article class="proj-card" data-cat="web">
-            <div class="proj-media">
-              <div class="media-ph proj-ph" style="background:linear-gradient(135deg,#0f3d2b,#071f16)">📊</div>
-              <span class="proj-num">#5</span>
-            </div>
-            <div class="proj-body">
-              <h3>Full Stack App</h3>
-              <div class="proj-tags">
-                <span class="proj-tag">Next.js</span>
-                <span class="proj-tag">MongoDB</span>
-              </div>
-              <p>A full-stack application with auth, database, and polished UI.</p>
-            </div>
-            <div class="proj-footer">
-              <a href="https://github.com/AbdulAziz/project" target="_blank" rel="noopener" class="proj-link">GitHub →</a>
-            </div>
-          </article>
+          
 
         </div>
       </div>
