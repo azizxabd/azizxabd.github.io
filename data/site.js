@@ -191,7 +191,7 @@ window.SITE = {
               'Engineered PCB architecture and power distribution for high-throughput sensors and onboard compute.',
             ],
           },
-          { type: 'image', src: 'assets/img/current/rover.webp', alt: 'NURover Mars rover' },
+          { type: 'image', src: 'assets/img/current/rover-crop.webp', alt: 'The NURover Mars-analog rover in the lab' },
         ],
       },
     },
@@ -265,7 +265,7 @@ window.SITE = {
               'Built structured post-flight telemetry logging and Python/C++ diagnostics, improving test reliability by *30%*.',
             ],
           },
-          { type: 'image', src: 'assets/img/current/pcb.webp', alt: 'AeroNU avionics board' },
+          { type: 'art', art: 'board' },
         ],
       },
     },
@@ -368,7 +368,7 @@ window.SITE = {
               'The object detection model also won first prize for Best Startup Potential at Amity University in March 2025.',
             ],
           },
-          { type: 'image', src: 'assets/img/projects/ObjectScanner.webp', alt: 'Object measurement demo' },
+          { type: 'art', art: 'measure' },
         ],
       },
     },
@@ -381,7 +381,7 @@ window.SITE = {
       title: 'ORB-SLAM3 Realtime',
       summary:
         'Benchmarking ORB-SLAM3 across standard datasets, extended with a real-time monocular mode on a live webcam feed.',
-      image: 'assets/img/projects/orb-slam.webp',
+      image: 'assets/img/projects/orb-slam-crop.webp',
       link: 'https://github.com/Awwziz/ORB_SLAM3-Realtime',
     },
     {
@@ -390,7 +390,7 @@ window.SITE = {
       category: 'AI / ML',
       title: 'Object Detector',
       summary: 'Real-time detection with YOLO and OpenCV — bounding boxes and confidence per frame from live video.',
-      image: 'assets/img/projects/ObjectDetector.webp',
+      visual: { art: 'detect' },
       link: 'https://github.com/Awwziz/Object-Detector',
     },
     {
@@ -399,7 +399,7 @@ window.SITE = {
       category: 'AI / ML',
       title: 'Document Scanner',
       summary: 'Finds document edges in real time and applies a 4-point perspective transform for a clean top-down scan.',
-      image: 'assets/img/projects/DocumentScanner.webp',
+      visual: { art: 'scan' },
       link: 'https://github.com/Awwziz/Document-Scanner',
     },
     {
@@ -408,7 +408,7 @@ window.SITE = {
       category: 'AI / ML',
       title: 'Object Measurement',
       summary: 'Estimates real-world object size from one frame using a known reference object.',
-      image: 'assets/img/projects/ObjectScanner.webp',
+      visual: { art: 'measure' },
       link: 'https://github.com/Awwziz/Object-Measurement',
     },
     {
@@ -417,7 +417,7 @@ window.SITE = {
       category: 'Hardware',
       title: 'STM32 CAN Bus Node',
       summary: 'Custom STM32 CAN node for AeroNU avionics — GPS, IMU and barometer on a single 4-layer PCB.',
-      image: 'assets/img/current/pcb.webp',
+      visual: { art: 'board' },
     },
     {
       id: 'power-distribution',
@@ -425,6 +425,7 @@ window.SITE = {
       category: 'Hardware',
       title: 'Power Distribution Board',
       summary: 'Regulated 5 V / 12 V / 19 V rails with per-rail overcurrent protection for the rover’s compute and sensors.',
+      visual: { art: 'board' },
     },
     {
       id: 'rover-chassis',
@@ -432,7 +433,7 @@ window.SITE = {
       category: 'Hardware',
       title: 'Rover Chassis Design',
       summary: 'NURover chassis for Mars-analog terrain, with wall thickness tuned through FEA to cut weight.',
-      image: 'assets/img/current/rover.webp',
+      image: 'assets/img/current/rover-crop.webp',
     },
     {
       id: 'telemetry',
@@ -440,6 +441,7 @@ window.SITE = {
       category: 'Hardware',
       title: 'Telemetry & Ground Station',
       summary: '900 MHz LoRa link streaming altitude, orientation and battery data to a Python dashboard.',
+      visual: { art: 'radio' },
     },
     {
       id: 'ngo-platform',
@@ -447,6 +449,7 @@ window.SITE = {
       category: 'Web',
       title: 'NGO Platform',
       summary: 'Volunteer sign-up, member auth, API-backed storage and donation tracking — responsive on every screen.',
+      visual: { art: 'web' },
       link: 'https://github.com/Awwziz/NGO',
     },
     {
@@ -455,7 +458,7 @@ window.SITE = {
       category: 'Web',
       title: 'N-Queen Game',
       summary: 'Interactive constraint puzzle with solver modes that show backtracking and heuristics.',
-      image: 'assets/img/projects/NQueenGame.webp',
+      visual: { art: 'queens' },
       link: 'https://github.com/Awwziz/',
     },
   ],

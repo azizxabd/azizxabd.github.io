@@ -268,7 +268,46 @@
     return thumb(b);
   }
 
+  /* Placeholder for projects without a photo: a LiDAR-style dot scan in
+     the same style as the NURover card. `seed` (any string, e.g. the project
+     id) moves the "obstacles", so each project gets its own pattern.
+     `small: true` draws bigger dots for little thumbnails. */
+  function dots(opts) {
+    opts = opts || {};
+    var str = String(opts.seed || 'x'), hsh = 2166136261;
+    for (var c = 0; c < str.length; c++) { hsh ^= str.charCodeAt(c); hsh = Math.imul(hsh, 16777619); }
+    var r = rng(hsh), occ = [], n = 4 + Math.floor(r() * 3);
+    for (var o = 0; o < n; o++) occ.push({ a: r() * 360, w: 9 + r() * 20, ring: 4 + Math.floor(r() * 16) });
+    var W = 1200, H = 675, cx = W / 2, cy = H / 2, sw = opts.small ? 5 : 2.6;
+    var rings = opts.small ? 18 : 24, gap = opts.small ? 14 : 11.5, step = opts.small ? 4 : 2.5;
+    var near = '', far = '', hit = '';
+    for (var ring = 0; ring < rings; ring++) {
+      for (var a = 0; a < 360; a += step) {
+        var blocked = false, isHit = false;
+        for (var k = 0; k < occ.length; k++) {
+          var diff = Math.abs(((a - occ[k].a + 540) % 360) - 180);
+          if (diff < occ[k].w / 2) {
+            if (ring > occ[k].ring) blocked = true;
+            if (ring === occ[k].ring) isHit = true;
+          }
+        }
+        if (blocked) continue;
+        var rad = (a * Math.PI) / 180;
+        var rr = (30 + ring * gap) * (1 + 0.035 * Math.sin(4 * rad + ring * 0.5));
+        var pt = 'M' + f1(cx + Math.cos(rad) * rr * 1.25) + ' ' + f1(cy + Math.sin(rad) * rr * 0.62) + 'h0.01';
+        if (isHit) hit += pt; else if (ring < rings / 2) near += pt; else far += pt;
+      }
+    }
+    return svg('0 0 ' + W + ' ' + H,
+      path(far, 'ink-s', ' stroke-opacity="0.2" stroke-width="' + sw + '"') +
+      path(near, 'ink-s', ' stroke-opacity="0.5" stroke-width="' + sw + '"') +
+      path(hit, 'acc-s', ' stroke-width="' + sw * 1.6 + '"') +
+      '<rect x="' + (cx - 12) + '" y="' + (cy - 8) + '" width="24" height="16" rx="3" class="text-f"/>',
+      ' preserveAspectRatio="xMidYMid slice" class="art"');
+  }
+
   window.ART = {
+    dots: dots,
     terrain: terrain, flow: flow, lidar: lidar, variance: variance, teleop: teleop,
     detect: detect, scan: scan, measure: measure, queens: queens, board: board, radio: radio, web: web,
   };
