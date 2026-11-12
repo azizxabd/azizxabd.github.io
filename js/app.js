@@ -159,6 +159,7 @@
             '<span class="kicker kicker-sm">' + esc(p.kicker) + '</span>' +
             '<span class="card-title">' + rich(p.title) + '</span>' +
             (p.highlight ? '<span class="card-hi acc-t">' + esc(p.highlight) + '</span>' : '') +
+            (url ? '<span class="pill pill-sm card-cta">' + (p.case ? 'Case study →' : 'View ↗') + '</span>' : '') +
             '</div></' + tag + '>';
         }).join('') + '</div></section>';
     },
@@ -183,7 +184,7 @@
           '<div class="arch-body"><span class="kicker kicker-sm">' + esc(p.category || '') + '</span>' +
           '<span class="arch-title">' + rich(p.title) + '</span>' +
           '<span class="arch-sum">' + rich(p.summary || '') + '</span>' +
-          (url ? '<span class="arch-link">' + (p.case ? 'Case study →' : 'View ↗') + '</span>' : '') +
+          (url ? '<span class="pill pill-sm card-cta arch-cta">' + (p.case ? 'Case study →' : 'View ↗') + '</span>' : '') +
           '</div></' + tag + '>';
       }).join('');
       return '<section class="archive wrap" id="archive"><div class="archive-head">' +

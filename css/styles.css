@@ -206,7 +206,7 @@ a.feature:hover .feature-visual .art { transform: scale(1.03); }
 /* ── more work ──────────────────────────────────────────────────────── */
 .more { padding-top: 120px; padding-bottom: 40px; }
 .section-label { margin: 0 0 32px; font-size: 15px; font-weight: 400; color: var(--muted); }
-.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 16px; }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 16px; }
 .card {
   display: flex; flex-direction: column; gap: 12px; min-height: 200px; padding: 28px;
   border-radius: var(--r-md); background: var(--surface); border: 1px solid var(--line);
@@ -400,3 +400,10 @@ a.arch:hover .arch-thumb .art { transform: scale(1.04); }
 .card-thumb .art, .card-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
 a.card:hover .card-thumb .art, a.card:hover .card-thumb img { transform: scale(1.04); }
 .card-body { display: flex; flex-direction: column; gap: 12px; padding: 24px 26px 26px; flex: 1; }
+
+/* "Case study" / "View" button on More work and Archive cards */
+.pill-sm { min-height: 38px; padding: 0 16px; font-size: 14px; }
+.card-cta { margin-top: 10px; color: var(--text); }
+.arch-cta { margin-top: auto; }
+.arch-body .arch-sum { margin-bottom: 8px; }
+a.card:hover .card-cta, a.arch:hover .card-cta { background: var(--text); color: var(--bg); border-color: var(--text); }
