@@ -16,6 +16,7 @@ the HTML, CSS or JS to:
 | Give a project its own page | add `case: { role, period, body: [...] }` → `project.html?id=<id>` |
 | Experience rows | `experience` |
 | Toolkit | `toolkit` |
+| Education | `education` |
 | Publications, awards | `recognition` |
 | Section headings, 404 text | `labels` |
 | Accent colour, light/dark default | `theme` |

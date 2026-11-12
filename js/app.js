@@ -48,7 +48,7 @@
     return '<ul class="tags">' + list.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>';
   }
   var L = Object.assign({
-    more: 'More work', archive: 'Archive', recognition: 'Recognition', toolkit: 'Toolkit',
+    more: 'More work', archive: 'Archive', education: 'Education', recognition: 'Recognition', toolkit: 'Toolkit',
     caseCta: 'Open case study →', notFound: 'That project isn’t here.',
   }, S.labels || {});
 
@@ -202,6 +202,20 @@
       return '<section id="about" class="about wrap">' + portrait +
         '<div class="about-copy"><p class="about-text reveal">' + rich(a.text) + '</p>' +
         (rows ? '<div class="xp-list reveal">' + rows + '</div>' : '') + '</div></section>';
+    },
+
+    education: function () {
+      var e = S.education;
+      if (!e || !e.length) return '';
+      return '<section class="recognition wrap"><h2 class="section-label">' + esc(L.education) + '</h2><div class="rec-list">' +
+        e.map(function (x) {
+          return '<div class="rec edu reveal">' +
+            '<span class="kicker kicker-sm">' + esc(x.degree) + '</span>' +
+            '<span class="rec-title">' + esc(x.school) +
+            (x.detail ? '<span class="edu-detail">' + rich(x.detail) + '</span>' : '') + '</span>' +
+            '<span class="rec-meta">' + [x.place, x.period].filter(Boolean).map(esc).join(' · ') + '</span>' +
+            '</div>';
+        }).join('') + '</div></section>';
     },
 
     recognition: function () {

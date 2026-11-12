@@ -46,7 +46,7 @@ window.SITE = {
   ],
 
   // Order of sections on the home page. Remove or reorder freely.
-  sections: ['hero', 'statement', 'featured', 'more', 'archive', 'about', 'recognition', 'toolkit', 'contact'],
+  sections: ['hero', 'statement', 'featured', 'more', 'archive', 'about', 'education', 'recognition', 'toolkit', 'contact'],
 
   nav: [
     { label: 'Work', href: '#work' },
@@ -123,22 +123,45 @@ window.SITE = {
       kicker: 'Perception',
       title: 'Turning 3.7 km of driving into 1.94 m of error.',
       summary:
-        'Camera-based motion tracking for a car, compared against IMU dead reckoning — including a small sensor flaw I found that would have pushed it off course.',
+        'A stereo visual odometry pipeline benchmarked against IMU dead reckoning on KITTI and RosarioV2 — including a gyroscope bias I found that would have added 8+ radians of phantom drift.',
       stats: [
-        { value: '0.05%', label: 'drift', accent: true },
+        { value: '0.05%', label: 'drift on KITTI', accent: true },
         { value: '3,718 m', label: 'driven' },
       ],
       visual: { art: 'flow' },
-      tags: ['Visual odometry', 'Dead reckoning', 'IMU', 'OpenCV', 'Python'],
+      tags: ['Stereo VO', 'ORB / SIFT', 'PnP + RANSAC', 'IMU dead reckoning', 'ATE / RPE', 'OpenCV', 'Python'],
       case: {
         role: 'Northeastern University',
         period: 'Apr — May 2026',
         body: [
           {
             type: 'text',
-            heading: 'What it is',
+            heading: 'The question',
             text: [
-              'An evaluation and comparison of camera-based visual odometry against IMU-based dead reckoning, across scenes rich and poor in visual features.',
+              'How far can a vehicle trust its own estimate of where it is? I compared camera-based visual odometry with IMU dead reckoning in scenes rich and poor in visual features, on the KITTI driving dataset and the RosarioV2 agricultural field dataset.',
+            ],
+          },
+          {
+            type: 'list',
+            heading: 'What I built',
+            items: [
+              'A full stereo VO pipeline: ORB and SIFT features, stereo triangulation, and PnP + RANSAC pose estimation.',
+              'IMU dead reckoning, benchmarked against ground truth with absolute and relative trajectory error (ATE / RPE).',
+              'Found a *0.0105 rad/s gyroscope bias* in the field data. Correcting it prevented *8+ radians* of phantom heading drift across an 800-second run.',
+            ],
+          },
+          {
+            type: 'stats',
+            items: [
+              { value: '1.94 m', label: 'ATE over 3,718 m · KITTI (0.05%)', accent: true },
+              { value: '25.26 m', label: 'ATE over 165 m · Rosario (15.3%)' },
+            ],
+          },
+          {
+            type: 'text',
+            heading: 'What it shows',
+            text: [
+              'On smooth roads, dead reckoning stays remarkably tight. On rough, feature-poor field terrain, drift is roughly 300× worse, which is exactly where catching a small sensor bias pays off.',
             ],
           },
         ],
@@ -150,10 +173,10 @@ window.SITE = {
       kicker: 'Field robotics',
       title: 'Real-time mapping for a Mars-analog rover.',
       summary:
-        'NURover’s navigation stack fuses LiDAR and camera data into one live map, so the rover can steer around obstacles as they appear.',
+        'NURover’s ROS2 navigation stack fuses LiDAR and stereo camera data for real-time SLAM and dynamic obstacle avoidance on unstructured terrain.',
       stats: [{ value: '+25%', label: 'localization accuracy', accent: true }],
       visual: { art: 'lidar' },
-      tags: ['ROS2', 'Gazebo', 'SLAM', 'LiDAR', 'Sensor fusion'],
+      tags: ['ROS2', 'Gazebo', 'SLAM', 'LiDAR', 'Stereo', 'Sensor fusion'],
       case: {
         role: 'Automation Engineer, Northeastern Mars Rover Team',
         period: 'Sep — Dec 2025',
@@ -162,9 +185,10 @@ window.SITE = {
             type: 'list',
             heading: 'What I did',
             items: [
-              'Designed and deployed a ROS2-based autonomous navigation stack in Gazebo, integrating LiDAR and camera for real-time SLAM and obstacle avoidance.',
-              'Achieved a *25% improvement* in localization accuracy during field tests.',
-              'Engineered PCB architecture and power distribution for high-throughput sensors and onboard compute modules.',
+              'Engineered a ROS2 navigation stack fusing LiDAR and stereo camera data for real-time SLAM and dynamic obstacle avoidance on unstructured Mars-analog terrain.',
+              'Improved localization accuracy by *25% over baseline* during competitive field trials.',
+              'Validated behaviour before deployment in Gazebo simulation environments.',
+              'Engineered PCB architecture and power distribution for high-throughput sensors and onboard compute.',
             ],
           },
           { type: 'image', src: 'assets/img/current/rover.webp', alt: 'NURover Mars rover' },
@@ -183,23 +207,31 @@ window.SITE = {
         { value: '4', label: 'changing worlds' },
       ],
       visual: { art: 'variance', wide: { label: 'PPO · σ 146.8', sigma: 146.8 }, narrow: { label: 'meta · σ 26.9', sigma: 26.9 } },
-      tags: ['Reinforcement learning', 'REINFORCE', 'LSTM', 'Robosuite', 'MuJoCo'],
+      tags: ['Hierarchical RL', 'REINFORCE', 'PPO', 'LSTM', 'Robosuite', 'MuJoCo', 'PyTorch'],
       case: {
         role: 'Northeastern University',
         period: 'May 2026',
         body: [
           {
             type: 'text',
-            heading: 'What it is',
+            heading: 'The idea',
             text: [
-              'A two-level hierarchical RL system. A REINFORCE meta-controller picks the inner policy every 20 steps, switching between an MLP and an LSTM, across four non-stationary environments.',
+              'Different environments reward different network architectures: memory helps when the world hides its state, and a simple feed-forward policy wins when it doesn’t. So instead of choosing up front, I let the agent choose.',
+              'A two-level hierarchical RL system: a REINFORCE meta-controller selects between an MLP and an LSTM inner policy every 20 steps, across four non-stationary environments.',
             ],
           },
           {
             type: 'stats',
             items: [
-              { value: 'σ 26.9', label: 'meta-controller', accent: true },
-              { value: 'σ 146.8', label: 'PPO baseline' },
+              { value: '+2.87', label: 'reward on the 1D task (fixed PPO: −15.56)', accent: true },
+              { value: 'σ 26.9', label: 'on LunarLander (PPO: σ 146.8)' },
+            ],
+          },
+          {
+            type: 'text',
+            heading: 'What emerged',
+            text: [
+              'With no prior, the meta-controller developed clear preferences: *81.4% LSTM* on Robosuite and *84.7% MLP* on LunarLander, matching the structure of each task.',
             ],
           },
         ],
@@ -212,10 +244,14 @@ window.SITE = {
       tier: 'more',
       kicker: 'AerospaceNU',
       title: 'CAN-bus avionics for a student rocket',
-      highlight: '40% faster fault alerts',
+      highlight: '40% faster fault response',
       summary:
-        'A CAN-based avionics system on STM32 microcontrollers, linking GPS, IMU, barometer and telemetry for real-time data relay.',
-      tags: ['STM32', 'CAN bus', 'C++', 'Python'],
+        'A CAN-bus avionics system on STM32 microcontrollers integrating GPS, IMU and telemetry across distributed hardware that had no communication backbone.',
+      stats: [
+        { value: '30%', label: 'more reliable tests', accent: true },
+        { value: '40%', label: 'faster fault response' },
+      ],
+      tags: ['STM32', 'CAN bus', 'Embedded C/C++', 'Python', 'Telemetry'],
       case: {
         role: 'Avionics System Engineer',
         period: 'Sep 2025 — Present',
@@ -224,8 +260,9 @@ window.SITE = {
             type: 'list',
             heading: 'What I did',
             items: [
-              'Built a CAN-based avionics system using STM32 microcontrollers, connecting GPS, IMU, barometer and telemetry for real-time data relay.',
-              'Developed flight diagnostics and safety scripts in Python/C++, improving test reliability by *30%*.',
+              'Architected a CAN-bus avionics system on STM32 microcontrollers, integrating GPS, IMU, barometer and telemetry across distributed hardware with no prior communication backbone.',
+              'Cut fault-response time by *40%* with automated threshold-based alerting.',
+              'Built structured post-flight telemetry logging and Python/C++ diagnostics, improving test reliability by *30%*.',
             ],
           },
           { type: 'image', src: 'assets/img/current/pcb.webp', alt: 'AeroNU avionics board' },
@@ -239,18 +276,20 @@ window.SITE = {
       title: 'An inverse-kinematics solver, built from scratch',
       highlight: 'Zero robotics libraries',
       summary:
-        'Numerical IK and task-space control of a 7-DOF UR7 manipulator, simulated from scratch in Python.',
-      tags: ['Python', 'Kinematics', 'Jacobian', 'Path planning'],
+        'Numerical IK and task-space control of a 7-DOF UR7 manipulator, written from scratch in Python.',
+      tags: ['Python', 'DH parameters', 'Geometric Jacobian', 'Damped least squares', 'SE(3) control', 'Trajectory planning'],
       case: {
         role: 'Northeastern University',
+        period: 'Dec 2025',
         body: [
           {
             type: 'list',
             heading: 'What I built',
             items: [
-              'A 7-DOF manipulator simulator written from scratch in Python, using DH parameters.',
-              'The geometric Jacobian for task-space velocity control.',
-              'A damped least-squares Newton–Raphson IK solver, which stays stable near singular poses.',
+              'Derived DH parameters from UR-series specifications and computed the geometric Jacobian analytically.',
+              'Implemented a damped least-squares Newton–Raphson IK solver that stays stable near singular poses.',
+              'Autonomous helical trajectory tracking and real-time keyboard-driven Cartesian control.',
+              '*Stable convergence across all tested configurations*, with zero external robotics library dependencies.',
             ],
           },
         ],
@@ -262,6 +301,49 @@ window.SITE = {
       kicker: 'SLAM',
       title: 'Real-time SLAM on a CPU-only laptop',
       highlight: '15 Hz, under 5 cm off',
+      summary:
+        'An OpenCV-based SLAM stack tuned to run in real time on a GPU-free Linux machine.',
+      stats: [
+        { value: '15 Hz', label: 'mapping rate', accent: true },
+        { value: '<5 cm', label: 'error over 20 m' },
+      ],
+      tags: ['SLAM', 'OpenCV', 'Linux', 'Optimisation'],
+      case: {
+        role: 'Northeastern University',
+        period: 'Dec 2025',
+        body: [
+          {
+            type: 'text',
+            heading: 'What I did',
+            text: [
+              'Optimised an OpenCV-based SLAM stack on a GPU-free Linux platform, reaching *15 Hz* mapping with *under 5 cm* localization error over 20 m, without any hardware acceleration.',
+            ],
+          },
+        ],
+      },
+    },
+    {
+      id: 'rcm-lens',
+      tier: 'more',
+      kicker: 'Mechanism design',
+      title: 'A 4-DOF remote-centre-of-motion mechanism for spacecraft optics',
+      highlight: 'Exact pivot point, full range',
+      summary:
+        'A 4-DOF RCM mechanism in SolidWorks for spacecraft lens alignment, holding an exact pivot point throughout its actuation range.',
+      tags: ['SolidWorks', 'Mechanism design', 'Kinematics'],
+      case: {
+        role: 'Northeastern University',
+        period: 'Dec 2025',
+        body: [
+          {
+            type: 'text',
+            heading: 'What I did',
+            text: [
+              'Designed a 4-DOF remote-centre-of-motion mechanism in SolidWorks for spacecraft lens alignment. It enforces exact pivot-point constraints throughout the full actuation range, eliminating off-axis displacement in space-constrained optical assemblies.',
+            ],
+          },
+        ],
+      },
     },
     {
       id: 'multi-camera-paper',
@@ -271,7 +353,7 @@ window.SITE = {
       highlight: 'Under 2% error',
       summary:
         'A hybrid object detector that fuses multi-view geometry with a custom YOLOv5 model to estimate object size across distributed cameras.',
-      tags: ['YOLOv5', 'Multi-view geometry', 'Computer vision'],
+      tags: ['YOLOv5', 'Multi-view geometry', 'Computer vision', 'PyTorch'],
       links: [{ label: 'Read the paper', url: 'https://www.jisem-journal.com/index.php/journal/article/view/12745' }],
       case: {
         role: 'JISEM',
@@ -281,8 +363,8 @@ window.SITE = {
             type: 'text',
             heading: 'Paper',
             text: [
-              '*Fusion of Deep Learning and Multi-view Geometry for Robust Object Detection in Distributed Camera Systems.* Published in JISEM, 26 Feb 2025.',
-              'The system pairs multi-view geometry with a custom YOLOv5 model. It estimates object dimensions with under 2% error and outperforms single-camera methods.',
+              '*Fusion of Deep Learning and Multi-view Geometry for Robust Object Detection in Distributed Camera Systems.* Abdul Aziz et al., JISEM, 26 Feb 2025.',
+              'A hybrid pipeline that combines a custom YOLOv5 model with multi-view geometric constraints across a distributed camera network. It estimates object dimensions with *under 2% error*, outperforms single-camera baselines in every tested configuration, and keeps its accuracy under viewpoint changes that appearance-only models cannot handle.',
               'The object detection model also won first prize for Best Startup Potential at Amity University in March 2025.',
             ],
           },
@@ -404,8 +486,8 @@ window.SITE = {
       place: 'Boston',
       period: 'Sep 2025 — Now',
       points: [
-        'CAN-based avionics on STM32 linking GPS, IMU, barometer and telemetry.',
-        'Python/C++ flight diagnostics that raised test reliability by 30%.',
+        'Architected CAN-bus avionics on STM32 integrating GPS, IMU and telemetry across hardware with no prior communication backbone.',
+        'Automated threshold-based alerting cut fault-response time by 40%; post-flight telemetry logging improved test reliability by 30%.',
       ],
     },
     {
@@ -414,8 +496,8 @@ window.SITE = {
       place: 'Boston',
       period: 'Sep — Dec 2025',
       points: [
-        'ROS2 navigation stack in Gazebo with LiDAR + camera SLAM and obstacle avoidance.',
-        '25% better localization accuracy in field tests.',
+        'ROS2 navigation stack fusing LiDAR and stereo for real-time SLAM and dynamic obstacle avoidance on Mars-analog terrain.',
+        '25% better localization accuracy over baseline in competitive field trials, validated first in Gazebo.',
         'PCB architecture and power distribution for sensors and onboard compute.',
       ],
     },
@@ -425,8 +507,8 @@ window.SITE = {
       place: 'India',
       period: 'Jan — May 2025',
       points: [
-        'Built and deployed a Python ML fault-detection system for robotic subsystems that cut average diagnostic time by ~20%, using real-time sensor log analysis and predictive modelling.',
-        'Tied the pipeline into ROS tools and hardware feedback loops for faster on-site troubleshooting.',
+        'Architected an ML fault-detection pipeline trained on historical hardware and software failures, replacing manual triage with predictive maintenance and cutting average diagnostic time by ~20%.',
+        'Owned end-to-end ML deployment, from preprocessing and feature engineering to production validation, and set the repeatable deployment standard the engineering team adopted.',
       ],
     },
     {
@@ -435,18 +517,18 @@ window.SITE = {
       place: 'Singapore',
       period: 'May — Jun 2024',
       points: [
-        'Led a TensorFlow conversational interface for human-robot interaction, improving intent recognition and cutting latency on embedded systems.',
-        'Worked with the embedded and software teams to deploy and tune it in real-time tests.',
+        'Built and deployed an NLP conversational agent with intent classification and multi-turn dialogue management, resolving complex queries without human escalation.',
+        'Diagnosed drop-off in multi-step conversations and restructured the dialogue flow through usability testing and fine-tuning, improving end-to-end task completion.',
       ],
     },
     {
       org: 'Mishka Tech',
-      role: 'HMI/UX Intern',
+      role: 'HMI & UX Intern',
       place: 'India',
       period: 'Jun — Aug 2024',
       points: [
-        'Operator interfaces for robotic control systems, with UI logic wired to backend APIs: fewer execution errors and ~30% better command response.',
-        'Validated UI-to-hardware API communication with the electrical and software teams.',
+        'Redesigned HMI layouts for web and mobile control platforms across three iterations, reducing operator steps per control sequence and improving command response by ~30%.',
+        'Delivered prototypes from wireframe to production-ready Figma handoff, creating the documentation standard used for all later releases.',
       ],
     },
     {
@@ -455,6 +537,23 @@ window.SITE = {
       place: 'India',
       period: 'Sep — Dec 2023',
       points: ['Led UI/UX for a wellness app and helped build it in FlutterFlow, with a focus on accessibility.'],
+    },
+  ],
+
+  education: [
+    {
+      school: 'Northeastern University',
+      degree: 'MS, Robotics',
+      place: 'Boston, MA',
+      period: 'Expected May 2027',
+      detail: 'Mobile Robotics · Robot Mechanics & Control · Robot Sensing & Navigation · Reinforcement Learning · Advanced Field Robotics · Mechatronics Systems',
+    },
+    {
+      school: 'Amity University Uttar Pradesh',
+      degree: 'BTech, Computer Science Engineering',
+      place: 'India',
+      period: 'June 2025',
+      detail: 'Algorithms · Artificial Intelligence · Data Structures · Control Systems · Computer Architecture · Compiler Construction',
     },
   ],
 
@@ -476,17 +575,19 @@ window.SITE = {
   ],
 
   toolkit: {
-    'Robotics & simulation': ['ROS / ROS2', 'Gazebo', 'MuJoCo · Robosuite', 'URScript · RTDE', 'SLAM', 'Motion planning'],
-    'Perception & ML': ['OpenCV', 'PyTorch', 'TensorFlow', 'YOLOv5 / v8', 'Reinforcement learning', 'Sensor fusion'],
-    'Languages & systems': ['Python', 'C++17 · CMake', 'C#', 'Linux', 'Git'],
-    'Hardware & CAD': ['STM32 / CAN bus', 'RS-485 · serial', 'Haply Inverse3', 'Arduino · Raspberry Pi', 'SolidWorks · Fusion 360'],
-    'Web & backend': ['JavaScript', 'FastAPI', 'WebSocket · REST', 'Node.js · Express', 'MongoDB'],
+    'Robotics systems': ['ROS2', 'Autonomous navigation', 'SLAM', 'LiDAR / camera fusion', 'URScript · RTDE', 'Haptic teleoperation'],
+    'Perception & estimation': ['OpenCV', 'Stereo visual odometry', 'ORB / SIFT', 'PnP + RANSAC', 'IMU dead reckoning', 'ATE / RPE benchmarking'],
+    'Kinematics & control': ['DH parameters', 'Geometric Jacobian', 'Damped least-squares IK', 'SE(3) task-space control', 'Trajectory planning'],
+    'AI & machine learning': ['PyTorch', 'TensorFlow', 'PPO · REINFORCE · hierarchical RL', 'Behavioural cloning', 'YOLOv5 / v8', 'Multi-view geometry'],
+    'Embedded & hardware': ['STM32 · Arduino', 'CAN bus · RS-485', 'PCB design & fabrication', 'Brushless motor control', 'Power distribution'],
+    'Languages & tools': ['Python', 'C++17 · CMake', 'C#', 'Linux · Git', 'Gazebo · MuJoCo · Robosuite', 'SolidWorks · Fusion 360 · Figma'],
   },
 
   // Section headings and small UI text.
   labels: {
     more: 'More work',
     archive: 'Archive',
+    education: 'Education',
     recognition: 'Publications & awards',
     toolkit: 'Toolkit',
     caseCta: 'Open case study →',

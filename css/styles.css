@@ -373,3 +373,9 @@ code {
   .portrait { flex-basis: 100%; }
   .footnote { margin-top: 64px; }
 }
+
+/* ── education (reuses the recognition rows) ────────────────────────── */
+.rec.edu { grid-template-columns: 220px 1fr auto; }
+.edu-detail { display: block; margin-top: 6px; font-size: 14px; line-height: 1.5; color: var(--muted); letter-spacing: 0; }
+.recognition + .recognition { padding-top: 0; }
+@media (max-width: 720px) { .rec.edu { grid-template-columns: 1fr; } }
