@@ -379,3 +379,8 @@ code {
 .edu-detail { display: block; margin-top: 6px; font-size: 14px; line-height: 1.5; color: var(--muted); letter-spacing: 0; }
 .recognition + .recognition { padding-top: 0; }
 @media (max-width: 720px) { .rec.edu { grid-template-columns: 1fr; } }
+
+/* Line-art thumbnails in archive cards */
+.arch-thumb:has(.art) { background: var(--surface-2); }
+.arch-thumb .art { width: 100%; height: 100%; transition: transform .6s; }
+a.arch:hover .arch-thumb .art { transform: scale(1.04); }

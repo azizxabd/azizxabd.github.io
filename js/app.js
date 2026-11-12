@@ -171,6 +171,7 @@
         var tag = url ? 'a' : 'div';
         var thumb = p.image
           ? '<img src="' + esc(p.image) + '" alt="" loading="lazy" decoding="async">'
+          : p.visual ? visual(p.visual)
           : '<span class="thumb-ph">' + esc((p.category || '').toUpperCase()) + '</span>';
         return '<' + tag + ' class="arch reveal" data-cat="' + esc(p.category || '') + '"' + (url ? ' ' + linkAttrs(url) : '') + '>' +
           '<div class="arch-thumb">' + thumb + '</div>' +

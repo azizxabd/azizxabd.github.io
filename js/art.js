@@ -166,5 +166,110 @@
       ' class="art"');
   }
 
-  window.ART = { terrain: terrain, flow: flow, lidar: lidar, variance: variance, teleop: teleop };
+  /* ── Small thumbnails (640×360) for archive cards ─────────────────── */
+  function thumb(body) { return svg('0 0 640 360', body, ' class="art"'); }
+  function rect(x, y, w, h, cls, extra) {
+    return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="none" class="' + cls + '"' + (extra || '') + '/>';
+  }
+  function label(x, y, t, cls) { return '<text x="' + x + '" y="' + y + '" font-size="14" class="mono-t ' + (cls || 'muted-f') + '">' + t + '</text>'; }
+
+  // Object detection: a street in perspective with bounding boxes
+  function detect() {
+    var b = '', vx = 320, vy = 120;
+    [-520, -260, 0, 260, 520].forEach(function (x, i) {
+      b += path('M' + (320 + x) + ' 360L' + vx + ' ' + vy, 'ink-s', ' stroke-opacity="' + (i === 2 ? 0.25 : 0.14) + '" stroke-width="1.4"' + (i === 2 ? ' stroke-dasharray="10 12"' : ''));
+    });
+    for (var k = 0; k < 7; k++) { var y = vy + Math.pow(k / 6, 2) * 240; b += path('M0 ' + f1(y) + 'L640 ' + f1(y), 'ink-s', ' stroke-opacity="0.05"'); }
+    b += rect(86, 200, 150, 104, 'ink-s', ' stroke-opacity="0.5" stroke-width="2" rx="3"') + label(86, 192, 'car 0.94');
+    b += rect(402, 152, 52, 110, 'ink-s', ' stroke-opacity="0.5" stroke-width="2" rx="3"') + label(402, 144, 'person 0.95');
+    b += rect(268, 168, 104, 76, 'acc-s', ' stroke-width="2.5" rx="3"') + label(268, 160, 'car 0.98', 'acc-f');
+    return thumb(b);
+  }
+
+  // Document scanner: a skewed page warped flat by a 4-point transform
+  function scan() {
+    var q = [[70, 92], [260, 62], [292, 286], [96, 312]], d = 'M' + q.map(function (p) { return p.join(' '); }).join('L') + 'Z';
+    var b = path(d, 'ink-s', ' stroke-opacity="0.45" stroke-width="2"');
+    q.forEach(function (p) { b += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="6" class="acc-f"/>'; });
+    b += path('M318 186L360 186M350 176L362 186L350 196', 'ink-s', ' stroke-opacity="0.5" stroke-width="2"');
+    b += rect(392, 62, 186, 250, 'acc-s', ' stroke-width="2.5" rx="4"');
+    for (var i = 0; i < 9; i++) b += path('M414 ' + (96 + i * 22) + 'L' + (556 - (i % 3) * 26) + ' ' + (96 + i * 22), 'ink-s', ' stroke-opacity="0.3" stroke-width="3"');
+    for (var j = 0; j < 7; j++) {
+      var t = (j + 1) / 8;
+      var a = [q[0][0] + (q[3][0] - q[0][0]) * t, q[0][1] + (q[3][1] - q[0][1]) * t], c = [q[1][0] + (q[2][0] - q[1][0]) * t, q[1][1] + (q[2][1] - q[1][1]) * t];
+      b += path('M' + f1(a[0] + 18) + ' ' + f1(a[1]) + 'L' + f1(c[0] - 24) + ' ' + f1(c[1]), 'ink-s', ' stroke-opacity="0.18" stroke-width="3"');
+    }
+    return thumb(b);
+  }
+
+  // Object measurement: dimension lines around a part
+  function measure() {
+    var b = '<circle cx="300" cy="190" r="92" class="ink-s" stroke-opacity="0.45" stroke-width="2"/>' +
+      '<circle cx="300" cy="190" r="34" class="ink-s" stroke-opacity="0.3" stroke-width="2"/>';
+    for (var i = 0; i < 24; i++) {
+      var a = i / 24 * Math.PI * 2, r1 = 92, r2 = 106;
+      b += path('M' + f1(300 + Math.cos(a) * r1) + ' ' + f1(190 + Math.sin(a) * r1) + 'L' + f1(300 + Math.cos(a) * r2) + ' ' + f1(190 + Math.sin(a) * r2), 'ink-s', ' stroke-opacity="0.45" stroke-width="5"');
+    }
+    b += path('M194 318L406 318M194 306L194 330M406 306L406 330', 'acc-s', ' stroke-width="2"') + label(262, 346, '212.0 mm', 'acc-f');
+    b += path('M452 84L452 296M440 84L464 84M440 296L464 296', 'ink-s', ' stroke-opacity="0.5" stroke-width="2"') + label(472, 196, '212.4');
+    b += path('M194 84L194 300M406 84L406 300', 'ink-s', ' stroke-opacity="0.12" stroke-dasharray="4 6"');
+    return thumb(b);
+  }
+
+  // N-queens: one valid 8-queen solution, with one queen's lines of attack
+  function queens() {
+    var s = 38, x0 = 168, y0 = 28, sol = [0, 4, 7, 5, 2, 6, 1, 3], b = '';
+    for (var r = 0; r < 8; r++) for (var c = 0; c < 8; c++) {
+      if ((r + c) % 2) b += '<rect x="' + (x0 + c * s) + '" y="' + (y0 + r * s) + '" width="' + s + '" height="' + s + '" class="ink-f" fill-opacity="0.07"/>';
+    }
+    b += rect(x0, y0, s * 8, s * 8, 'ink-s', ' stroke-opacity="0.35" stroke-width="1.5"');
+    var qr = 3, qc = sol[3], cx = x0 + qc * s + s / 2, cy = y0 + qr * s + s / 2;
+    b += path('M' + x0 + ' ' + cy + 'L' + (x0 + 8 * s) + ' ' + cy + 'M' + cx + ' ' + y0 + 'L' + cx + ' ' + (y0 + 8 * s) +
+      'M' + (cx - 3 * s) + ' ' + (cy - 3 * s) + 'L' + (cx + 3 * s) + ' ' + (cy + 3 * s) + 'M' + (cx - 3 * s) + ' ' + (cy + 3 * s) + 'L' + (cx + 4 * s) + ' ' + (cy - 4 * s), 'acc-s', ' stroke-opacity="0.35" stroke-width="1.5"');
+    sol.forEach(function (c, r) {
+      b += '<circle cx="' + (x0 + c * s + s / 2) + '" cy="' + (y0 + r * s + s / 2) + '" r="10" class="' + (r === qr ? 'acc-f' : 'text-f') + '"' + (r === qr ? '' : ' fill-opacity="0.75"') + '/>';
+    });
+    return thumb(b);
+  }
+
+  // PCB: a microcontroller with traces running to edge pads, one bus highlighted
+  function board() {
+    var b = rect(60, 40, 520, 280, 'ink-s', ' stroke-opacity="0.35" stroke-width="2" rx="14"') +
+      rect(270, 130, 100, 100, 'text-s', ' stroke-opacity="0.6" stroke-width="2" rx="4"');
+    for (var i = 0; i < 6; i++) {
+      var y = 142 + i * 15, x = 142 + i * 15;
+      b += path('M270 ' + y + 'L' + (200 - i * 8) + ' ' + y + 'L' + (200 - i * 8) + ' ' + (64 + i * 4) + 'L' + (90 + i * 22) + ' ' + (64 + i * 4), 'ink-s', ' stroke-opacity="0.3" stroke-width="2"');
+      b += path('M' + (x + 128) + ' 230L' + (x + 128) + ' ' + (270 + i * 6) + 'L' + (120 + i * 40) + ' ' + (270 + i * 6) + 'L' + (120 + i * 40) + ' 300', 'ink-s', ' stroke-opacity="0.22" stroke-width="2"');
+      b += '<circle cx="' + (120 + i * 40) + '" cy="300" r="5" class="ink-s" stroke-opacity="0.4" stroke-width="2"/>';
+    }
+    b += path('M370 160L470 160L470 110L560 110M370 175L485 175L485 125L560 125', 'acc-s', ' stroke-width="2.5"');
+    b += label(486, 98, 'CAN', 'acc-f');
+    return thumb(b);
+  }
+
+  // Telemetry: a flight altitude trace above a ground station sending pulses
+  function radio() {
+    var d = '';
+    for (var x = 0; x <= 600; x += 6) { var t = x / 600, y = 300 - 250 * Math.sin(Math.PI * Math.pow(t, 0.8)) * (1 - 0.15 * t); d += (d ? 'L' : 'M') + (20 + x) + ' ' + f1(y); }
+    var b = path('M20 300L620 300', 'line-s', ' stroke-width="1.5"') + path(d, 'acc-s', ' stroke-width="2.5"');
+    b += '<circle cx="80" cy="300" r="6" class="text-f"/>';
+    [40, 80, 120].forEach(function (r, i) { b += path('M' + (80 - r * 0.7) + ' ' + (300 - r * 0.7) + 'A' + r + ' ' + r + ' 0 0 1 ' + (80 + r * 0.7) + ' ' + (300 - r * 0.7), 'ink-s', ' stroke-opacity="' + (0.45 - i * 0.12) + '" stroke-width="2"'); });
+    b += label(380, 40, 'apogee', 'acc-f') + label(96, 330, 'ground station');
+    return thumb(b);
+  }
+
+  // Web platform: a browser window wireframe
+  function web() {
+    var b = rect(70, 30, 500, 300, 'ink-s', ' stroke-opacity="0.4" stroke-width="2" rx="12"') + path('M70 70L570 70', 'ink-s', ' stroke-opacity="0.3" stroke-width="2"');
+    [96, 116, 136].forEach(function (x) { b += '<circle cx="' + x + '" cy="50" r="5" class="ink-s" stroke-opacity="0.45" stroke-width="2"/>'; });
+    b += path('M106 112L330 112M106 136L270 136', 'text-s', ' stroke-opacity="0.55" stroke-width="8"');
+    b += rect(106, 158, 112, 36, 'acc-s', ' stroke-width="2.5" rx="18"');
+    [106, 260, 414].forEach(function (x) { b += rect(x, 222, 128, 82, 'ink-s', ' stroke-opacity="0.3" stroke-width="2" rx="8"') + path('M' + (x + 16) + ' 282L' + (x + 90) + ' 282', 'ink-s', ' stroke-opacity="0.3" stroke-width="5"'); });
+    return thumb(b);
+  }
+
+  window.ART = {
+    terrain: terrain, flow: flow, lidar: lidar, variance: variance, teleop: teleop,
+    detect: detect, scan: scan, measure: measure, queens: queens, board: board, radio: radio, web: web,
+  };
 })();
