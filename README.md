@@ -12,7 +12,7 @@ the HTML, CSS or JS to:
 | --- | --- |
 | Hero headline, intro, buttons | `hero` |
 | Add / remove / reorder a project | `projects` (order in the list = order on the page) |
-| Promote a project to a big card | set `tier: 'featured'` (or `'more'` / `'archive'`) |
+| Promote a project to a big card | set `tier: 'featured'` (or `'more'` / `'archive'`; `'hidden'` keeps it out of the site) |
 | Give a project its own page | add `case: { role, period, body: [...] }` → `project.html?id=<id>` |
 | Experience rows | `experience` |
 | Toolkit | `toolkit` |
@@ -35,7 +35,8 @@ Inline formatting in any text: `*accent*`, `~muted~`, `` `code` ``, and `\n` for
 { type: 'image', src: 'assets/img/…', alt: '…', caption: '…' }
 { type: 'stats', items: [{ value: '15 Hz', label: 'update rate', accent: true }] }
 { type: 'quote', text: '…' }
-{ type: 'art',   art: 'lidar' }   // flow | lidar | variance | terrain
+{ type: 'art',   art: 'lidar' }   // flow | lidar | variance | teleop | detect | …
+{ type: 'table', heading: 'Results', columns: ['Env', 'Ours', 'Baseline'], rows: [['CartPole', '297', '312']], note: '…' }
 ```
 
 Projects can also carry `links: [{ label: 'Paper', url: '…' }]` and `tags: [...]`.

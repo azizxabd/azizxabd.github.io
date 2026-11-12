@@ -279,7 +279,7 @@
     var r = rng(hsh), occ = [], n = 4 + Math.floor(r() * 3);
     for (var o = 0; o < n; o++) occ.push({ a: r() * 360, w: 9 + r() * 20, ring: 4 + Math.floor(r() * 16) });
     var W = 1200, H = 675, cx = W / 2, cy = H / 2, sw = opts.small ? 5 : 2.6;
-    var rings = opts.small ? 18 : 24, gap = opts.small ? 14 : 11.5, step = opts.small ? 4 : 2.5;
+    var rings = opts.small ? 18 : 24, gap = opts.small ? 19 : 12.5, step = opts.small ? 4 : 2.5;
     var near = '', far = '', hit = '';
     for (var ring = 0; ring < rings; ring++) {
       for (var a = 0; a < 360; a += step) {
@@ -306,9 +306,98 @@
       ' preserveAspectRatio="xMidYMid slice" class="art"');
   }
 
+  // AI assistant: a conversation, with a mood trace underneath
+  function chat() {
+    function bubble(x, y, w, h, cls, op, tailLeft) {
+      var t = tailLeft ? 'M' + (x + 18) + ' ' + (y + h) + 'L' + (x + 10) + ' ' + (y + h + 14) + 'L' + (x + 34) + ' ' + (y + h)
+        : 'M' + (x + w - 34) + ' ' + (y + h) + 'L' + (x + w - 10) + ' ' + (y + h + 14) + 'L' + (x + w - 18) + ' ' + (y + h);
+      return rect(x, y, w, h, cls, ' stroke-opacity="' + op + '" stroke-width="2" rx="14"') + path(t, cls, ' stroke-opacity="' + op + '" stroke-width="2"');
+    }
+    var b = bubble(80, 40, 250, 56, 'ink-s', 0.45, true) + path('M102 62L290 62M102 76L240 76', 'ink-s', ' stroke-opacity="0.3" stroke-width="4"');
+    b += bubble(300, 118, 260, 56, 'acc-s', 1, false) + path('M322 140L530 140M322 154L470 154', 'acc-s', ' stroke-opacity="0.55" stroke-width="4"');
+    b += bubble(80, 196, 170, 40, 'ink-s', 0.45, true);
+    [112, 132, 152].forEach(function (x) { b += '<circle cx="' + x + '" cy="216" r="4" class="text-f" fill-opacity="0.6"/>'; });
+    var d = '';
+    for (var x = 0; x <= 480; x += 8) d += (d ? 'L' : 'M') + (80 + x) + ' ' + f1(312 - 18 * Math.sin(x / 48) - 10 * Math.sin(x / 19) - x * 0.04);
+    b += path('M80 330L560 330', 'line-s', ' stroke-width="1.5"') + path(d, 'ink-s', ' stroke-opacity="0.5" stroke-width="2"');
+    b += label(470, 352, 'mood');
+    return thumb(b);
+  }
+
+  // IK solver: a planar arm reaching along a helical target path, with ghost poses
+  function arm() {
+    var base = [130, 320], L = [150, 120, 80];
+    function fk(q) {
+      var x = base[0], y = base[1], a = 0, pts = [[x, y]];
+      for (var i = 0; i < 3; i++) { a += q[i]; x += L[i] * Math.cos(a); y -= L[i] * Math.sin(a); pts.push([x, y]); }
+      return pts;
+    }
+    function draw(q, cls, op, w) {
+      var p = fk(q), d = 'M' + p.map(function (v) { return f1(v[0]) + ' ' + f1(v[1]); }).join('L');
+      var s = path(d, cls, ' stroke-opacity="' + op + '" stroke-width="' + w + '"');
+      p.slice(0, 3).forEach(function (v) { s += '<circle cx="' + f1(v[0]) + '" cy="' + f1(v[1]) + '" r="' + (w * 2.2) + '" class="' + cls + '" stroke-opacity="' + op + '" stroke-width="2"/>'; });
+      return { svg: s, tip: p[3] };
+    }
+    var helix = '';
+    for (var t = 0; t <= 1; t += 0.01) {
+      var x = 380 + t * 170 + 40 * Math.cos(t * Math.PI * 6), y = 230 - t * 120 + 18 * Math.sin(t * Math.PI * 6);
+      helix += (helix ? 'L' : 'M') + f1(x) + ' ' + f1(y);
+    }
+    var b = path('M70 320L250 320', 'line-s', ' stroke-width="2"') + path(helix, 'acc-s', ' stroke-opacity="0.7" stroke-width="2.5"');
+    b += draw([1.25, -0.95, -0.55], 'ink-s', 0.18, 2).svg + draw([1.05, -0.75, -0.35], 'ink-s', 0.28, 2).svg;
+    var cur = draw([0.82, -0.52, -0.2], 'text-s', 0.85, 3);
+    b += cur.svg + '<circle cx="' + f1(cur.tip[0]) + '" cy="' + f1(cur.tip[1]) + '" r="7" class="acc-f"/>';
+    b += '<circle cx="' + f1(cur.tip[0]) + '" cy="' + f1(cur.tip[1]) + '" r="18" class="acc-s" stroke-opacity="0.4"/>';
+    b += label(400, 336, 'J(q)⁺ · Δx');
+    return thumb(b);
+  }
+
+  // SLAM: a trajectory with keyframes through a sparse map of landmarks
+  function slam() {
+    var r = rng(11), lm = '', hot = '';
+    var traj = [[70, 290], [170, 270], [250, 210], [300, 130], [390, 90], [480, 110], [540, 180], [570, 260]];
+    var d = 'M' + traj.map(function (p) { return p.join(' '); }).join('L');
+    for (var i = 0; i < 160; i++) {
+      var seg = traj[Math.floor(r() * (traj.length - 1))], side = (r() - 0.5) * 2;
+      var x = seg[0] + (r() - 0.5) * 90, y = seg[1] + side * (40 + r() * 40);
+      var dot = 'M' + f1(x) + ' ' + f1(y) + 'h0.01';
+      if (r() < 0.12) hot += dot; else lm += dot;
+    }
+    var b = path(lm, 'ink-s', ' stroke-opacity="0.45" stroke-width="4"') + path(hot, 'acc-s', ' stroke-width="5"');
+    b += path(d, 'acc-s', ' stroke-width="2.5"');
+    traj.forEach(function (p, k) {
+      if (k % 2) return;
+      b += path('M' + p[0] + ' ' + (p[1] - 9) + 'L' + (p[0] + 8) + ' ' + (p[1] + 6) + 'L' + (p[0] - 8) + ' ' + (p[1] + 6) + 'Z', 'text-s', ' stroke-opacity="0.8" stroke-width="2"');
+    });
+    b += label(470, 336, '15 Hz · CPU');
+    return thumb(b);
+  }
+
+  // RCM mechanism: every pose of the tool passes through one fixed pivot
+  function rcm() {
+    var px = 320, py = 250, b = '';
+    [-0.55, -0.28, 0, 0.28, 0.55].forEach(function (a, i) {
+      var dx = Math.sin(a), dy = -Math.cos(a), x1 = px + dx * 210, y1 = py + dy * 210, x2 = px - dx * 70, y2 = py - dy * 70;
+      var on = i === 3;
+      b += path('M' + f1(x1) + ' ' + f1(y1) + 'L' + f1(x2) + ' ' + f1(y2), on ? 'text-s' : 'ink-s', ' stroke-opacity="' + (on ? 0.85 : 0.34) + '" stroke-width="' + (on ? 3 : 2) + '"');
+      if (on) {
+        // parallelogram linkage holding the active pose
+        var ox = x1 - 110, oy = y1 + 40;
+        b += path('M' + f1(ox) + ' ' + f1(oy) + 'L' + f1(x1) + ' ' + f1(y1) + 'M' + f1(ox) + ' ' + f1(oy) + 'L' + f1(ox + dx * -150) + ' ' + f1(oy - dy * -150) + 'L' + f1(x1 + dx * -150) + ' ' + f1(y1 - dy * -150),
+          'ink-s', ' stroke-opacity="0.5" stroke-width="2"');
+        b += '<circle cx="' + f1(ox) + '" cy="' + f1(oy) + '" r="5" class="ink-s" stroke-opacity="0.6" stroke-width="2"/>';
+      }
+    });
+    b += '<ellipse cx="' + px + '" cy="' + (py + 6) + '" rx="64" ry="14" fill="none" class="ink-s" stroke-opacity="0.35" stroke-width="2"/>';
+    b += '<circle cx="' + px + '" cy="' + py + '" r="7" class="acc-f"/><circle cx="' + px + '" cy="' + py + '" r="22" class="acc-s" stroke-opacity="0.45"/>';
+    b += label(px + 34, py + 44, 'fixed pivot', 'acc-f');
+    return thumb(b);
+  }
+
   window.ART = {
     dots: dots,
     terrain: terrain, flow: flow, lidar: lidar, variance: variance, teleop: teleop,
-    detect: detect, scan: scan, measure: measure, queens: queens, board: board, radio: radio, web: web,
+    detect: detect, scan: scan, measure: measure, queens: queens, board: board, radio: radio, web: web, chat: chat,
+    arm: arm, slam: slam, rcm: rcm,
   };
 })();

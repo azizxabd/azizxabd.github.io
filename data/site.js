@@ -11,12 +11,17 @@
      tier: 'featured' → large card with a visual (top of the Work section)
            'more'     → small text card in "More work"
            'archive'  → card with thumbnail in the filterable "Archive"
+           'hidden'   → kept here but not shown anywhere
      Give a project a `case` object and it gets its own page at
      project.html?id=<id>. Otherwise the card links to `link` (if any).
 
-   Visuals (featured cards + case pages):
-     { art: 'flow' | 'lidar' | 'variance' | 'terrain' }  generated drawings
-     { image: 'assets/img/...', alt: '...' }             your own picture
+   Visuals (cards + case pages):
+     { art: 'flow' | 'lidar' | 'variance' | 'teleop' }            big drawings
+     { art: 'detect' | 'scan' | 'measure' | 'queens' | 'board' |
+            'radio' | 'web' | 'chat' }                            small drawings
+     { image: 'assets/img/...', alt: '...' }                      your own picture
+     Archive cards can also use `image:` directly. Anything with neither
+     gets a dotted LiDAR-style placeholder.
    ===================================================================== */
 
 window.SITE = {
@@ -191,7 +196,7 @@ window.SITE = {
               'Engineered PCB architecture and power distribution for high-throughput sensors and onboard compute.',
             ],
           },
-          { type: 'image', src: 'assets/img/current/rover-crop.webp', alt: 'The NURover Mars-analog rover in the lab' },
+          { type: 'image', src: 'assets/img/current/rover.webp', alt: 'The NURover Mars-analog rover in the lab' },
         ],
       },
     },
@@ -201,38 +206,72 @@ window.SITE = {
       kicker: 'Learning',
       title: 'An agent that chooses its own network as conditions change.',
       summary:
-        'A REINFORCE meta-controller switches between MLP and LSTM policies every 20 steps, cutting result variance 5× against a PPO baseline.',
+        'A REINFORCE meta-controller switches between MLP and LSTM policies as the world shifts under it, with 5× less run-to-run variance than a single high-capacity agent on LunarLander.',
       stats: [
         { value: '5×', label: 'less variance', accent: true },
         { value: '4', label: 'changing worlds' },
       ],
-      visual: { art: 'variance', wide: { label: 'PPO · σ 146.8', sigma: 146.8 }, narrow: { label: 'meta · σ 26.9', sigma: 26.9 } },
-      tags: ['Hierarchical RL', 'REINFORCE', 'PPO', 'LSTM', 'Robosuite', 'MuJoCo', 'PyTorch'],
+      visual: { art: 'variance', wide: { label: 'high-capacity · σ 146.8', sigma: 146.8 }, narrow: { label: 'self-modifying · σ 26.9', sigma: 26.9 } },
+      tags: ['Hierarchical RL', 'REINFORCE', 'PPO', 'LSTM', 'Behavioural cloning', 'Robosuite', 'MuJoCo', 'Gymnasium', 'PyTorch'],
+      links: [
+        { label: 'View code', url: 'https://github.com/azizxabd/self-modifying-rl' },
+        { label: '1D environment', url: 'https://github.com/azizxabd/self-modifying-1D' },
+        { label: 'Demo video', url: 'https://github.com/azizxabd/self-modifying-rl/blob/main/results/videos/scripted_policy.mp4' },
+      ],
       case: {
-        role: 'Northeastern University',
-        period: 'May 2026',
+        role: 'Northeastern University · CS 4180/5180',
+        period: 'Apr — May 2026',
         body: [
           {
             type: 'text',
             heading: 'The idea',
             text: [
-              'Different environments reward different network architectures: memory helps when the world hides its state, and a simple feed-forward policy wins when it doesn’t. So instead of choosing up front, I let the agent choose.',
-              'A two-level hierarchical RL system: a REINFORCE meta-controller selects between an MLP and an LSTM inner policy every 20 steps, across four non-stationary environments.',
+              'Different conditions reward different network architectures: memory helps when the task has hidden state, and a simple feed-forward policy reacts faster when it doesn’t. When the environment changes mid-episode, no single choice is right for long. So instead of choosing up front, I let the agent choose.',
+              'A two-level hierarchical RL system. Every 20 steps, a REINFORCE meta-controller decides whether to keep or switch between a memoryless MLP and a memory-aware LSTM inner policy, each with its own PPO actor-critic head.',
+            ],
+          },
+          {
+            type: 'list',
+            heading: 'How it’s built',
+            items: [
+              '*Meta-controller:* a small network (7 → 64 → 64 → 2) that reads a 7-dimensional meta-state (mean and spread of recent reward, reward trend, lift rate, episode time, current architecture) and is trained with REINFORCE plus a *switching-cost penalty* (λ = 0.3) so it doesn’t flip for no reason.',
+              '*Inner policies:* a 3-layer MLP (256-256-128 with LayerNorm) and an LSTM (256 → LSTM 128 → 128), both trained with PPO.',
+              '*Four non-stationary environments,* each moving through three phases: a custom 1D task (sprint → conserve → stabilise), CartPole (normal → 3× pole mass → wind), LunarLander (normal → stronger gravity → wind and turbulence), and a Robosuite Panda lift (0.1 kg → 0.3 kg cube → random forces).',
+              '*Robosuite pipeline:* a scripted lift policy (100% success) generates demonstrations in parallel, behavioural cloning pre-trains the policies, then PPO fine-tunes them.',
+              'Four baselines: fixed PPO, a single high-capacity agent, heuristic switching and random switching.',
             ],
           },
           {
             type: 'stats',
             items: [
-              { value: '+2.87', label: 'reward on the 1D task (fixed PPO: −15.56)', accent: true },
-              { value: 'σ 26.9', label: 'on LunarLander (PPO: σ 146.8)' },
+              { value: '+2.87', label: 'reward on the 1D task, where fixed PPO collapsed to −15.56', accent: true },
+              { value: '±27', label: 'on LunarLander, vs ±147 for the high-capacity agent' },
+              { value: '1.5–5.4', label: 'switches per episode, vs 5–37 for random switching' },
             ],
           },
           {
-            type: 'text',
-            heading: 'What emerged',
-            text: [
-              'With no prior, the meta-controller developed clear preferences: *81.4% LSTM* on Robosuite and *84.7% MLP* on LunarLander, matching the structure of each task.',
+            type: 'table',
+            heading: 'Results (mean episode return)',
+            columns: ['Environment', 'Self-modifying', 'High-capacity', 'Fixed PPO', 'Heuristic', 'Random'],
+            rows: [
+              ['1D non-stationary', '*+2.87 ± 5.01*', '—', '−15.56', '+2.99', '−0.43'],
+              ['CartPole', '+297 ± 48', '+474 ± 9', '+312 ± 12', '+340 ± 19', '+219 ± 19'],
+              ['LunarLander', '+347 ± *27*', '+432 ± 147', '+359 ± 136', '+309 ± 73', '+226 ± 14'],
+              ['Robosuite lift', '+420 ± 6', '+477 ± 4', '+538 ± 0.4', '−5.5 ± 0.4', '−298 ± 6'],
             ],
+            note: 'Being honest about the trade-off: on simpler tasks like CartPole, one big network still wins on raw return. The hierarchy pays off in stability and on the tasks where conditions shift the most.',
+          },
+          {
+            type: 'table',
+            heading: 'What the agent learned to prefer',
+            columns: ['Environment', 'MLP', 'LSTM', 'Why it makes sense'],
+            rows: [
+              ['1D non-stationary', '69%', '31%', 'Reactive task, memory adds little'],
+              ['CartPole', '41%', '59%', 'Balanced, still learning'],
+              ['LunarLander', '*85%*', '15%', 'Fast reactions matter most'],
+              ['Robosuite lift', '19%', '*81%*', 'Memory needed to track the phase'],
+            ],
+            note: 'Nobody told it which architecture suits which task. These preferences emerged from reward alone.',
           },
         ],
       },
@@ -244,6 +283,7 @@ window.SITE = {
       tier: 'more',
       kicker: 'AerospaceNU',
       title: 'CAN-bus avionics for a student rocket',
+      visual: { art: 'board' },
       highlight: '40% faster fault response',
       summary:
         'A CAN-bus avionics system on STM32 microcontrollers integrating GPS, IMU and telemetry across distributed hardware that had no communication backbone.',
@@ -265,7 +305,6 @@ window.SITE = {
               'Built structured post-flight telemetry logging and Python/C++ diagnostics, improving test reliability by *30%*.',
             ],
           },
-          { type: 'art', art: 'board' },
         ],
       },
     },
@@ -274,6 +313,7 @@ window.SITE = {
       tier: 'more',
       kicker: 'Kinematics',
       title: 'An inverse-kinematics solver, built from scratch',
+      visual: { art: 'arm' },
       highlight: 'Zero robotics libraries',
       summary:
         'Numerical IK and task-space control of a 7-DOF UR7 manipulator, written from scratch in Python.',
@@ -300,6 +340,7 @@ window.SITE = {
       tier: 'more',
       kicker: 'SLAM',
       title: 'Real-time SLAM on a CPU-only laptop',
+      visual: { art: 'slam' },
       highlight: '15 Hz, under 5 cm off',
       summary:
         'An OpenCV-based SLAM stack tuned to run in real time on a GPU-free Linux machine.',
@@ -327,6 +368,7 @@ window.SITE = {
       tier: 'more',
       kicker: 'Mechanism design',
       title: 'A 4-DOF remote-centre-of-motion mechanism for spacecraft optics',
+      visual: { art: 'rcm' },
       highlight: 'Exact pivot point, full range',
       summary:
         'A 4-DOF RCM mechanism in SolidWorks for spacecraft lens alignment, holding an exact pivot point throughout its actuation range.',
@@ -350,6 +392,7 @@ window.SITE = {
       tier: 'more',
       kicker: 'Published · 2025',
       title: 'Multi-camera object measurement',
+      visual: { art: 'measure' },
       highlight: 'Under 2% error',
       summary:
         'A hybrid object detector that fuses multi-view geometry with a custom YOLOv5 model to estimate object size across distributed cameras.',
@@ -365,10 +408,8 @@ window.SITE = {
             text: [
               '*Fusion of Deep Learning and Multi-view Geometry for Robust Object Detection in Distributed Camera Systems.* Abdul Aziz et al., JISEM, 26 Feb 2025.',
               'A hybrid pipeline that combines a custom YOLOv5 model with multi-view geometric constraints across a distributed camera network. It estimates object dimensions with *under 2% error*, outperforms single-camera baselines in every tested configuration, and keeps its accuracy under viewpoint changes that appearance-only models cannot handle.',
-              'The object detection model also won first prize for Best Startup Potential at Amity University in March 2025.',
             ],
           },
-          { type: 'art', art: 'measure' },
         ],
       },
     },
@@ -389,8 +430,8 @@ window.SITE = {
       tier: 'archive',
       category: 'AI / ML',
       title: 'Object Detector',
-      summary: 'Real-time detection with YOLO and OpenCV — bounding boxes and confidence per frame from live video.',
       visual: { art: 'detect' },
+      summary: 'Real-time webcam detection with an SSD MobileNet v3 (COCO) model through OpenCV’s DNN module, with frame-to-frame box smoothing to cut jitter.',
       link: 'https://github.com/Awwziz/Object-Detector',
     },
     {
@@ -398,8 +439,8 @@ window.SITE = {
       tier: 'archive',
       category: 'AI / ML',
       title: 'Document Scanner',
-      summary: 'Finds document edges in real time and applies a 4-point perspective transform for a clean top-down scan.',
       visual: { art: 'scan' },
+      summary: 'Finds document edges in real time and applies a 4-point perspective transform for a clean top-down scan.',
       link: 'https://github.com/Awwziz/Document-Scanner',
     },
     {
@@ -407,49 +448,86 @@ window.SITE = {
       tier: 'archive',
       category: 'AI / ML',
       title: 'Object Measurement',
-      summary: 'Estimates real-world object size from one frame using a known reference object.',
       visual: { art: 'measure' },
+      summary: 'Measures objects in centimetres using an A4 sheet as the reference: finds the page, warps it to a metric top-down plane, then sizes every rectangle on it.',
       link: 'https://github.com/Awwziz/Object-Measurement',
     },
     {
       id: 'stm32-can-node',
-      tier: 'archive',
+      tier: 'hidden', // duplicate of another entry
       category: 'Hardware',
       title: 'STM32 CAN Bus Node',
-      summary: 'Custom STM32 CAN node for AeroNU avionics — GPS, IMU and barometer on a single 4-layer PCB.',
       visual: { art: 'board' },
+      summary: 'Custom STM32 CAN node for AeroNU avionics — GPS, IMU and barometer on a single 4-layer PCB.',
     },
     {
       id: 'power-distribution',
-      tier: 'archive',
+      tier: 'hidden', // duplicate of another entry
       category: 'Hardware',
       title: 'Power Distribution Board',
-      summary: 'Regulated 5 V / 12 V / 19 V rails with per-rail overcurrent protection for the rover’s compute and sensors.',
       visual: { art: 'board' },
+      summary: 'Regulated 5 V / 12 V / 19 V rails with per-rail overcurrent protection for the rover’s compute and sensors.',
     },
     {
       id: 'rover-chassis',
-      tier: 'archive',
+      tier: 'hidden', // duplicate of another entry
       category: 'Hardware',
       title: 'Rover Chassis Design',
       summary: 'NURover chassis for Mars-analog terrain, with wall thickness tuned through FEA to cut weight.',
-      image: 'assets/img/current/rover-crop.webp',
+      image: 'assets/img/current/rover.webp',
     },
     {
       id: 'telemetry',
-      tier: 'archive',
+      tier: 'hidden', // duplicate of another entry
       category: 'Hardware',
       title: 'Telemetry & Ground Station',
-      summary: '900 MHz LoRa link streaming altitude, orientation and battery data to a Python dashboard.',
       visual: { art: 'radio' },
+      summary: '900 MHz LoRa link streaming altitude, orientation and battery data to a Python dashboard.',
+    },
+    {
+      id: 'portfolio-site',
+      tier: 'archive',
+      category: 'Web',
+      title: 'This portfolio',
+      summary:
+        'A static site rendered from a single data file: no framework, no build step. Generated line art, light and dark themes, case-study pages, and about 105 KB to first paint.',
+      image: 'assets/img/misc/social-card.png',
+      tags: ['JavaScript', 'HTML / CSS', 'SVG', 'GitHub Pages', 'Python (image tooling)'],
+      links: [{ label: 'View source', url: 'https://github.com/azizxabd/azizxabd.github.io' }],
+      case: {
+        role: 'Personal project',
+        period: '2026',
+        body: [
+          {
+            type: 'list',
+            heading: 'How it’s built',
+            items: [
+              '*One data file.* Every project, job, label and colour lives in `data/site.js`; a small renderer turns it into the home page and these case-study pages. Adding a project means adding one object.',
+              '*Generated art.* The terrain, optical-flow, LiDAR, teleop and variance drawings are drawn in code from each project’s real numbers, so they cost almost nothing to load.',
+              '*Fast by default.* Images are converted to WebP and resized by a script, load lazily, and fonts never block the first paint: about 105 KB before the page shows, down from 11 MB.',
+              '*Themes and access.* Light and dark themes follow the visitor’s system, with keyboard focus states, reduced-motion support and a layout that holds from phone to desktop.',
+            ],
+          },
+        ],
+      },
+    },
+    {
+      id: 'therapy-assistant',
+      tier: 'archive',
+      category: 'Web',
+      title: 'Mental Health AI Assistant',
+      visual: { art: 'chat' },
+      summary:
+        'A full-stack support app: chat with an AI assistant, track mood, keep a journal, with secure sign-in. Next.js + TypeScript front end, Flask + MongoDB back end, OpenAI API.',
+      link: 'https://github.com/Awwziz/therapy-assisstant',
     },
     {
       id: 'ngo-platform',
       tier: 'archive',
       category: 'Web',
       title: 'NGO Platform',
-      summary: 'Volunteer sign-up, member auth, API-backed storage and donation tracking — responsive on every screen.',
       visual: { art: 'web' },
+      summary: 'Donations, volunteer sign-ups, NGO profiles and campaigns, on a Node.js, Express and MongoDB backend.',
       link: 'https://github.com/Awwziz/NGO',
     },
     {
@@ -457,9 +535,8 @@ window.SITE = {
       tier: 'archive',
       category: 'Web',
       title: 'N-Queen Game',
-      summary: 'Interactive constraint puzzle with solver modes that show backtracking and heuristics.',
       visual: { art: 'queens' },
-      link: 'https://github.com/Awwziz/',
+      summary: 'Interactive constraint puzzle with solver modes that show backtracking and heuristics.',
     },
   ],
 
@@ -563,13 +640,6 @@ window.SITE = {
   // Publications, awards, talks. `link` is optional.
   recognition: [
     {
-      kind: 'Publication',
-      title: 'Fusion of Deep Learning and Multi-view Geometry for Robust Object Detection in Distributed Camera Systems',
-      org: 'JISEM',
-      date: 'Feb 2025',
-      link: 'https://www.jisem-journal.com/index.php/journal/article/view/12745',
-    },
-    {
       kind: 'Award',
       title: 'Best Startup Potential — first prize, for an object detection model',
       org: 'Amity University',
@@ -591,7 +661,7 @@ window.SITE = {
     more: 'More work',
     archive: 'Archive',
     education: 'Education',
-    recognition: 'Publications & awards',
+    recognition: 'Awards',
     toolkit: 'Toolkit',
     caseCta: 'Open case study →',
     notFound: 'That page doesn’t exist.',

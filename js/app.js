@@ -150,11 +150,16 @@
         items.map(function (p) {
           var url = projectUrl(p);
           var tag = url ? 'a' : 'div';
-          return '<' + tag + ' class="card reveal"' + (url ? ' ' + linkAttrs(url) : '') + '>' +
+          var thumb = p.image
+            ? '<img src="' + esc(p.image) + '" alt="" loading="lazy" decoding="async">'
+            : p.visual ? visual(p.visual) : ART.dots({ seed: p.id, small: true });
+          return '<' + tag + ' class="card card-media reveal"' + (url ? ' ' + linkAttrs(url) : '') + '>' +
+            '<div class="card-thumb">' + thumb + '</div>' +
+            '<div class="card-body">' +
             '<span class="kicker kicker-sm">' + esc(p.kicker) + '</span>' +
             '<span class="card-title">' + rich(p.title) + '</span>' +
             (p.highlight ? '<span class="card-hi acc-t">' + esc(p.highlight) + '</span>' : '') +
-            '</' + tag + '>';
+            '</div></' + tag + '>';
         }).join('') + '</div></section>';
     },
 
@@ -172,7 +177,7 @@
         var thumb = p.image
           ? '<img src="' + esc(p.image) + '" alt="" loading="lazy" decoding="async">'
           : p.visual ? visual(p.visual)
-          : '<span class="thumb-ph">' + esc((p.category || '').toUpperCase()) + '</span>';
+          : ART.dots({ seed: p.id, small: true }); // placeholder until there's a photo
         return '<' + tag + ' class="arch reveal" data-cat="' + esc(p.category || '') + '"' + (url ? ' ' + linkAttrs(url) : '') + '>' +
           '<div class="arch-thumb">' + thumb + '</div>' +
           '<div class="arch-body"><span class="kicker kicker-sm">' + esc(p.category || '') + '</span>' +
@@ -262,6 +267,16 @@
     },
     stats: function (b) { return stats(b.items, 'cs-stats'); },
     quote: function (b) { return '<blockquote class="cs-quote">' + rich(b.text) + '</blockquote>'; },
+    // { type: 'table', heading, columns: [...], rows: [[...], ...], note }
+    table: function (b) {
+      return (b.heading ? '<h2 class="cs-h">' + esc(b.heading) + '</h2>' : '') +
+        '<div class="cs-table-wrap"><table class="cs-table"><thead><tr>' +
+        b.columns.map(function (c) { return '<th scope="col">' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+        b.rows.map(function (r) {
+          return '<tr>' + r.map(function (c, i) { return i === 0 ? '<th scope="row">' + rich(c) + '</th>' : '<td>' + rich(c) + '</td>'; }).join('') + '</tr>';
+        }).join('') + '</tbody></table></div>' +
+        (b.note ? '<p class="cs-note">' + rich(b.note) + '</p>' : '');
+    },
     art: function (b) { return '<div class="cs-visual">' + visual(b) + '</div>'; },
   };
 
@@ -295,7 +310,9 @@
       (p.summary ? '<p class="cs-lede">' + rich(p.summary) + '</p>' : '') +
       stats(p.stats, 'cs-stats') + tags(p.tags) +
       (linkHtml ? '<div class="btn-row">' + linkHtml + '</div>' : '') + '</header>' +
-      (p.visual ? '<div class="cs-visual reveal">' + visual(p.visual) + '</div>' : '') +
+      '<div class="cs-visual reveal">' + (p.visual ? visual(p.visual)
+        : p.image ? visual({ image: p.image, alt: p.title.replace(/[*~]/g, '') })
+        : ART.dots({ seed: p.id })) + '</div>' +
       (body ? '<div class="cs-body">' + body + '</div>' : '') +
       '</article>' + nextHtml + '</div>' + contact();
   }
