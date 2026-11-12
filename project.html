@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project — Abdul Aziz</title>
+  <meta name="description" content="Abdul Aziz — MS Robotics at Northeastern. Perception, SLAM, field robotics and embedded avionics.">
+  <meta property="og:title" content="Abdul Aziz — Robotics Engineer">
+  <meta property="og:description" content="Robots that know where they are. Perception, SLAM, field robotics and embedded avionics.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://azizxabd.github.io/assets/img/me/profile.jpeg">
+  <meta name="theme-color" content="#0C1210">
+  <link rel="icon" href="assets/img/misc/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Fonts load in the background; text shows immediately in a fallback font -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono&display=swap"></noscript>
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Content first, then pick the theme before the page paints -->
+  <script src="data/site.js"></script>
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('theme'); } catch (e) {}
+      var mode = (window.SITE && SITE.theme && SITE.theme.mode) || 'auto';
+      if (t !== 'dark' && t !== 'light') t = mode === 'auto' ? null : mode;
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+<body data-page="project">
+  <main id="app"></main>
+  <noscript><p class="noscript">This site needs JavaScript to show its content. Reach me at aziz.abd@northeastern.edu.</p></noscript>
+  <script src="js/art.js" defer></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>
