@@ -63,7 +63,7 @@ window.SITE = {
     eyebrow: 'Robotics engineer · Perception & control · Boston',
     title: 'Robots that know where they are.',
     lede:
-      'I build perception, control and teleoperation software for real robots — currently a UR arm and a PSYONIC Ability Hand, driven from a haptic controller.',
+      'I write the software that makes robots dependable: they know where they are, follow a human’s hand at 500 Hz, and stop safely the moment something goes wrong. Currently building haptic teleoperation at PSYONIC.',
     ctas: [
       { label: 'View work', href: '#work', style: 'accent' },
       { label: 'Get in touch', href: '#contact', style: 'ghost' },
